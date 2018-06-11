@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.manage.dao.SysMenuDao;
 import com.manage.entity.SysMenuEntity;
+import com.manage.mapper.SysMenuMapper;
 import com.manage.service.SysMenuService;
 import com.manage.service.SysRoleMenuService;
 import com.manage.service.SysUserService;
@@ -19,7 +19,7 @@ import com.manage.utils.Constant.MenuType;
 @Service("sysMenuService")
 public class SysMenuServiceImpl implements SysMenuService {
 	@Autowired
-	private SysMenuDao sysMenuDao;
+	private SysMenuMapper sysMenuMapper;
 	@Autowired
 	private SysUserService sysUserService;
 	@Autowired
@@ -27,7 +27,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 	
 	@Override
 	public List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList) {
-		List<SysMenuEntity> menuList = sysMenuDao.queryListParentId(parentId);
+		List<SysMenuEntity> menuList = sysMenuMapper.queryListParentId(parentId);
 		if(menuIdList == null){
 			return menuList;
 		}
@@ -43,7 +43,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 
 	@Override
 	public List<SysMenuEntity> queryNotButtonList() {
-		return sysMenuDao.queryNotButtonList();
+		return sysMenuMapper.queryNotButtonList();
 	}
 
 	@Override
@@ -60,33 +60,33 @@ public class SysMenuServiceImpl implements SysMenuService {
 	
 	@Override
 	public SysMenuEntity queryObject(Long menuId) {
-		return sysMenuDao.queryObject(menuId);
+		return sysMenuMapper.queryObject(menuId);
 	}
 
 	@Override
 	public List<SysMenuEntity> queryList(Map<String, Object> map) {
-		return sysMenuDao.queryList(map);
+		return sysMenuMapper.queryList(map);
 	}
 
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return sysMenuDao.queryTotal(map);
+		return sysMenuMapper.queryTotal(map);
 	}
 
 	@Override
 	public void save(SysMenuEntity menu) {
-		sysMenuDao.save(menu);
+		sysMenuMapper.save(menu);
 	}
 
 	@Override
 	public void update(SysMenuEntity menu) {
-		sysMenuDao.update(menu);
+		sysMenuMapper.update(menu);
 	}
 
 	@Override
 	@Transactional
 	public void deleteBatch(Long[] menuIds) {
-		sysMenuDao.deleteBatch(menuIds);
+		sysMenuMapper.deleteBatch(menuIds);
 	}
 	
 	/**

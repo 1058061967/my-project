@@ -6,33 +6,33 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.manage.dao.ScheduleJobLogDao;
 import com.manage.entity.ScheduleJobLogEntity;
+import com.manage.mapper.ScheduleJobLogMapper;
 import com.manage.service.ScheduleJobLogService;
 
 @Service("scheduleJobLogService")
 public class ScheduleJobLogServiceImpl implements ScheduleJobLogService {
 	@Autowired
-	private ScheduleJobLogDao scheduleJobLogDao;
+	private ScheduleJobLogMapper scheduleJobLogMapper;
 	
 	@Override
 	public ScheduleJobLogEntity queryObject(Long jobId) {
-		return scheduleJobLogDao.queryObject(jobId);
+		return scheduleJobLogMapper.queryObject(jobId);
 	}
 
 	@Override
 	public List<ScheduleJobLogEntity> queryList(Map<String, Object> map) {
-		return scheduleJobLogDao.queryList(map);
+		return scheduleJobLogMapper.queryList(map);
 	}
 
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return scheduleJobLogDao.queryTotal(map);
+		return scheduleJobLogMapper.queryTotal(map);
 	}
 
 	@Override
 	public void save(ScheduleJobLogEntity log) {
-		scheduleJobLogDao.save(log);
+		scheduleJobLogMapper.save(log);
 	}
 
 }

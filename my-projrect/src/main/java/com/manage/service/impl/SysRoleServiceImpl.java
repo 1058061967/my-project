@@ -8,25 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.manage.dao.SysRoleDao;
 import com.manage.entity.SysRoleEntity;
+import com.manage.mapper.SysRoleMapper;
 import com.manage.service.SysRoleMenuService;
 import com.manage.service.SysRoleService;
 import com.manage.service.SysUserRoleService;
 
-
-
-/**
- * 角色
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年9月18日 上午9:45:12
- */
 @Service("sysRoleService")
 public class SysRoleServiceImpl implements SysRoleService {
 	@Autowired
-	private SysRoleDao sysRoleDao;
+	private SysRoleMapper sysRoleMapper;
 	@Autowired
 	private SysRoleMenuService sysRoleMenuService;
 	@Autowired
@@ -34,24 +25,24 @@ public class SysRoleServiceImpl implements SysRoleService {
 
 	@Override
 	public SysRoleEntity queryObject(Long roleId) {
-		return sysRoleDao.queryObject(roleId);
+		return sysRoleMapper.queryObject(roleId);
 	}
 
 	@Override
 	public List<SysRoleEntity> queryList(Map<String, Object> map) {
-		return sysRoleDao.queryList(map);
+		return sysRoleMapper.queryList(map);
 	}
 
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return sysRoleDao.queryTotal(map);
+		return sysRoleMapper.queryTotal(map);
 	}
 
 	@Override
 	@Transactional
 	public void save(SysRoleEntity role) {
 		role.setCreateTime(new Date());
-		sysRoleDao.save(role);
+		sysRoleMapper.save(role);
 		
 		//保存角色与菜单关系
 		sysRoleMenuService.saveOrUpdate(role.getRoleId(), role.getMenuIdList());
@@ -60,7 +51,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 	@Override
 	@Transactional
 	public void update(SysRoleEntity role) {
-		sysRoleDao.update(role);
+		sysRoleMapper.update(role);
 		
 		//更新角色与菜单关系
 		sysRoleMenuService.saveOrUpdate(role.getRoleId(), role.getMenuIdList());
@@ -69,7 +60,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 	@Override
 	@Transactional
 	public void deleteBatch(Long[] roleIds) {
-		sysRoleDao.deleteBatch(roleIds);
+		sysRoleMapper.deleteBatch(roleIds);
 	}
 
 }

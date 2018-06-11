@@ -7,22 +7,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.manage.dao.SysUserRoleDao;
+import com.manage.mapper.SysUserRoleMapper;
 import com.manage.service.SysUserRoleService;
 
-
-
-/**
- * 用户与角色对应关系
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年9月18日 上午9:45:48
- */
 @Service("sysUserRoleService")
 public class SysUserRoleServiceImpl implements SysUserRoleService {
 	@Autowired
-	private SysUserRoleDao sysUserRoleDao;
+	private SysUserRoleMapper sysUserRoleMapper;
 
 	@Override
 	public void saveOrUpdate(Long userId, List<Long> roleIdList) {
@@ -31,22 +22,22 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 		}
 		
 		//先删除用户与角色关系
-		sysUserRoleDao.delete(userId);
+		sysUserRoleMapper.delete(userId);
 		
 		//保存用户与角色关系
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("roleIdList", roleIdList);
-		sysUserRoleDao.save(map);
+		sysUserRoleMapper.save(map);
 	}
 
 	@Override
 	public List<Long> queryRoleIdList(Long userId) {
-		return sysUserRoleDao.queryRoleIdList(userId);
+		return sysUserRoleMapper.queryRoleIdList(userId);
 	}
 
 	@Override
 	public void delete(Long userId) {
-		sysUserRoleDao.delete(userId);
+		sysUserRoleMapper.delete(userId);
 	}
 }

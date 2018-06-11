@@ -19,13 +19,7 @@ import com.manage.utils.R;
 import com.manage.utils.RRException;
 import com.manage.utils.Constant.MenuType;
 
-/**
- * 系统菜单
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年10月27日 下午9:58:15
- */
+
 @RestController
 @RequestMapping("/sys/menu")
 public class SysMenuController extends AbstractController {

@@ -26,13 +26,7 @@ import com.google.code.kaptcha.Producer;
 import com.manage.utils.R;
 import com.manage.utils.ShiroUtils;
 
-/**
- * 登录相关
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年11月10日 下午1:15:31
- */
+
 @Controller
 public class SysLoginController {
 	@Autowired

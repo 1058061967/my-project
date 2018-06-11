@@ -8,53 +8,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.manage.dao.SysConfigDao;
 import com.manage.entity.SysConfigEntity;
+import com.manage.mapper.SysConfigMapper;
 import com.manage.service.SysConfigService;
 
 @Service("sysConfigService")
 public class SysConfigServiceImpl implements SysConfigService {
 	@Autowired
-	private SysConfigDao sysConfigDao;
+	private SysConfigMapper sysConfigMapper;
 	
 	@Override
 	public void save(SysConfigEntity config) {
-		sysConfigDao.save(config);
+		sysConfigMapper.save(config);
 	}
 
 	@Override
 	public void update(SysConfigEntity config) {
-		sysConfigDao.update(config);
+		sysConfigMapper.update(config);
 	}
 
 	@Override
 	public void updateValueByKey(String key, String value) {
-		sysConfigDao.updateValueByKey(key, value);
+		sysConfigMapper.updateValueByKey(key, value);
 	}
 
 	@Override
 	public void deleteBatch(Long[] ids) {
-		sysConfigDao.deleteBatch(ids);
+		sysConfigMapper.deleteBatch(ids);
 	}
 
 	@Override
 	public List<SysConfigEntity> queryList(Map<String, Object> map) {
-		return sysConfigDao.queryList(map);
+		return sysConfigMapper.queryList(map);
 	}
 
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return sysConfigDao.queryTotal(map);
+		return sysConfigMapper.queryTotal(map);
 	}
 
 	@Override
 	public SysConfigEntity queryObject(Long id) {
-		return sysConfigDao.queryObject(id);
+		return sysConfigMapper.queryObject(id);
 	}
 
 	@Override
 	public String getValue(String key, String defaultValue) {
-		String value = sysConfigDao.queryByKey(key);
+		String value = sysConfigMapper.queryByKey(key);
 		if(StringUtils.isBlank(value)){
 			return defaultValue;
 		}

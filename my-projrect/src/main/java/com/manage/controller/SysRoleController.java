@@ -18,13 +18,6 @@ import com.manage.service.SysRoleService;
 import com.manage.utils.PageUtils;
 import com.manage.utils.R;
 
-/**
- * 角色管理
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年11月8日 下午2:18:33
- */
 @RestController
 @RequestMapping("/sys/role")
 public class SysRoleController extends AbstractController {
@@ -33,9 +26,6 @@ public class SysRoleController extends AbstractController {
 	@Autowired
 	private SysRoleMenuService sysRoleMenuService;
 	
-	/**
-	 * 角色列表
-	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:role:list")
 	public R list(String roleName, Integer page, Integer limit){
@@ -44,7 +34,6 @@ public class SysRoleController extends AbstractController {
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
 		
-		//查询列表数据
 		List<SysRoleEntity> list = sysRoleService.queryList(map);
 		int total = sysRoleService.queryTotal(map);
 		
@@ -53,9 +42,6 @@ public class SysRoleController extends AbstractController {
 		return R.ok().put("page", pageUtil);
 	}
 	
-	/**
-	 * 角色列表
-	 */
 	@RequestMapping("/select")
 	@RequiresPermissions("sys:role:select")
 	public R select(){
@@ -65,9 +51,7 @@ public class SysRoleController extends AbstractController {
 		return R.ok().put("list", list);
 	}
 	
-	/**
-	 * 角色信息
-	 */
+	
 	@RequestMapping("/info/{roleId}")
 	@RequiresPermissions("sys:role:info")
 	public R info(@PathVariable("roleId") Long roleId){
@@ -80,9 +64,6 @@ public class SysRoleController extends AbstractController {
 		return R.ok().put("role", role);
 	}
 	
-	/**
-	 * 保存角色
-	 */
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:role:save")
 	public R save(@RequestBody SysRoleEntity role){
@@ -95,9 +76,6 @@ public class SysRoleController extends AbstractController {
 		return R.ok();
 	}
 	
-	/**
-	 * 修改角色
-	 */
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:role:update")
 	public R update(@RequestBody SysRoleEntity role){
@@ -110,9 +88,6 @@ public class SysRoleController extends AbstractController {
 		return R.ok();
 	}
 	
-	/**
-	 * 删除角色
-	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:role:delete")
 	public R delete(@RequestBody Long[] roleIds){

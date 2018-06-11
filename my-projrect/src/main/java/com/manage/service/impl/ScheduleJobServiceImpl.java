@@ -13,25 +13,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.manage.dao.ScheduleJobDao;
 import com.manage.entity.ScheduleJobEntity;
+import com.manage.mapper.ScheduleJobMapper;
 import com.manage.service.ScheduleJobService;
-import com.manage.utils.ScheduleUtils;
 import com.manage.utils.Constant.ScheduleStatus;
+import com.manage.utils.ScheduleUtils;
 
 @Service("scheduleJobService")
 public class ScheduleJobServiceImpl implements ScheduleJobService {
 	@Autowired
     private Scheduler scheduler;
 	@Autowired
-	private ScheduleJobDao schedulerJobDao;
+	private ScheduleJobMapper schedulerJobMapper;
 	
 	/**
 	 * 项目启动时，初始化定时器
 	 */
 	@PostConstruct
 	public void init(){
-		List<ScheduleJobEntity> scheduleJobList = schedulerJobDao.queryList(new HashMap<String, Object>());
+		List<ScheduleJobEntity> scheduleJobList = schedulerJobMapper.queryList(new HashMap<String, Object>());
 		for(ScheduleJobEntity scheduleJob : scheduleJobList){
 			CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getJobId());
             //如果不存在，则创建
@@ -45,17 +45,17 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	
 	@Override
 	public ScheduleJobEntity queryObject(Long jobId) {
-		return schedulerJobDao.queryObject(jobId);
+		return schedulerJobMapper.queryObject(jobId);
 	}
 
 	@Override
 	public List<ScheduleJobEntity> queryList(Map<String, Object> map) {
-		return schedulerJobDao.queryList(map);
+		return schedulerJobMapper.queryList(map);
 	}
 
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return schedulerJobDao.queryTotal(map);
+		return schedulerJobMapper.queryTotal(map);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	public void save(ScheduleJobEntity scheduleJob) {
 		scheduleJob.setCreateTime(new Date());
 		scheduleJob.setStatus(ScheduleStatus.NORMAL.getValue());
-        schedulerJobDao.save(scheduleJob);
+        schedulerJobMapper.save(scheduleJob);
         
         ScheduleUtils.createScheduleJob(scheduler, scheduleJob);
     }
@@ -73,7 +73,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	public void update(ScheduleJobEntity scheduleJob) {
         ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
                 
-        schedulerJobDao.update(scheduleJob);
+        schedulerJobMapper.update(scheduleJob);
     }
 
 	@Override
@@ -84,7 +84,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
     	}
     	
     	//删除数据
-    	schedulerJobDao.deleteBatch(jobIds);
+    	schedulerJobMapper.deleteBatch(jobIds);
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
     	Map<String, Object> map = new HashMap<>();
     	map.put("list", jobIds);
     	map.put("status", status);
-    	return schedulerJobDao.updateBatch(map);
+    	return schedulerJobMapper.updateBatch(map);
     }
     
 	@Override

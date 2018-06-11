@@ -1,17 +1,11 @@
-package com.manage.dao;
+package com.manage.mapper;
 
 import java.util.List;
 
 import com.manage.entity.SysMenuEntity;
 
-/**
- * 菜单管理
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年9月18日 上午9:33:01
- */
-public interface SysMenuDao extends BaseDao<SysMenuEntity> {
+
+public interface SysMenuMapper extends BaseMapper<SysMenuEntity> {
 	
 	/**
 	 * 根据父菜单，查询子菜单

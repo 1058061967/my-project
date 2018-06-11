@@ -1,17 +1,11 @@
-package com.manage.dao;
+package com.manage.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.manage.entity.SysConfigEntity;
 
-/**
- * 系统配置信息
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年12月4日 下午6:46:16
- */
-public interface SysConfigDao extends BaseDao<SysConfigEntity> {
+
+public interface SysConfigMapper extends BaseMapper<SysConfigEntity> {
 	
 	/**
 	 * 根据key，查询value

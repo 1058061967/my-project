@@ -11,55 +11,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.manage.dao.SysUserDao;
 import com.manage.entity.SysUserEntity;
+import com.manage.mapper.SysUserMapper;
 import com.manage.service.SysUserRoleService;
 import com.manage.service.SysUserService;
 
 
-
-/**
- * 系统用户
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年9月18日 上午9:46:09
- */
 @Service("sysUserService")
 public class SysUserServiceImpl implements SysUserService {
 	@Autowired
-	private SysUserDao sysUserDao;
+	private SysUserMapper sysUserMapper;
 	@Autowired
 	private SysUserRoleService sysUserRoleService;
 
 	@Override
 	public List<String> queryAllPerms(Long userId) {
-		return sysUserDao.queryAllPerms(userId);
+		return sysUserMapper.queryAllPerms(userId);
 	}
 
 	@Override
 	public List<Long> queryAllMenuId(Long userId) {
-		return sysUserDao.queryAllMenuId(userId);
+		return sysUserMapper.queryAllMenuId(userId);
 	}
 
 	@Override
 	public SysUserEntity queryByUserName(String username) {
-		return sysUserDao.queryByUserName(username);
+		return sysUserMapper.queryByUserName(username);
 	}
 	
 	@Override
 	public SysUserEntity queryObject(Long userId) {
-		return sysUserDao.queryObject(userId);
+		return sysUserMapper.queryObject(userId);
 	}
 
 	@Override
 	public List<SysUserEntity> queryList(Map<String, Object> map){
-		return sysUserDao.queryList(map);
+		return sysUserMapper.queryList(map);
 	}
 	
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return sysUserDao.queryTotal(map);
+		return sysUserMapper.queryTotal(map);
 	}
 
 	@Override
@@ -68,7 +60,7 @@ public class SysUserServiceImpl implements SysUserService {
 		user.setCreateTime(new Date());
 		//sha256加密
 		user.setPassword(new Sha256Hash(user.getPassword()).toHex());
-		sysUserDao.save(user);
+		sysUserMapper.save(user);
 		
 		//保存用户与角色关系
 		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
@@ -82,7 +74,7 @@ public class SysUserServiceImpl implements SysUserService {
 		}else{
 			user.setPassword(new Sha256Hash(user.getPassword()).toHex());
 		}
-		sysUserDao.update(user);
+		sysUserMapper.update(user);
 		
 		//保存用户与角色关系
 		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
@@ -91,7 +83,7 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	@Transactional
 	public void deleteBatch(Long[] userId) {
-		sysUserDao.deleteBatch(userId);
+		sysUserMapper.deleteBatch(userId);
 	}
 
 	@Override
@@ -100,6 +92,6 @@ public class SysUserServiceImpl implements SysUserService {
 		map.put("userId", userId);
 		map.put("password", password);
 		map.put("newPassword", newPassword);
-		return sysUserDao.updatePassword(map);
+		return sysUserMapper.updatePassword(map);
 	}
 }

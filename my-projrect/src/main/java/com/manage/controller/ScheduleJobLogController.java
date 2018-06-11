@@ -15,13 +15,7 @@ import com.manage.service.ScheduleJobLogService;
 import com.manage.utils.PageUtils;
 import com.manage.utils.R;
 
-/**
- * 定时任务日志
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年12月1日 下午10:39:52
- */
+
 @RestController
 @RequestMapping("/sys/scheduleLog")
 public class ScheduleJobLogController {
