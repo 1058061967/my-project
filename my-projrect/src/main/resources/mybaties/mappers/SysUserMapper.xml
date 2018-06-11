@@ -9,8 +9,8 @@
 	<select id="queryList" resultType="com.manage.entity.SysUserEntity">
 		select * from sys_user 
 		<where>
-			<if test="username != null and username.trim() != ''">
-				and `username` like concat('%',#{username},'%') 
+			<if test="userName != null and userName.trim() != ''">
+				and `user_name` like concat('%',#{userName},'%') 
 			</if>
 		</where>
 		order by user_id desc
@@ -22,8 +22,8 @@
 	<select id="queryTotal" resultType="int">
 		select count(*) from sys_user
 		<where>
-			<if test="username != null and username.trim() != ''">
-				and `username` like concat('%',#{username},'%') 
+			<if test="userName != null and userName.trim() != ''">
+				and `user_name` like concat('%',#{userName},'%') 
 			</if>
 		</where>
 	</select>
@@ -45,14 +45,14 @@
 	</select>
 	
 	<select id="queryByUserName" resultType="com.manage.entity.SysUserEntity">
-		select * from sys_user where username = #{username}
+		select * from sys_user where user_name = #{userName}
 	</select>
 	
 	<insert id="save" parameterType="com.manage.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="userId">
 		insert into sys_user
 		(
 			`user_id`, 
-			`username`, 
+			`user_name`, 
 			`password`, 
 			`email`, 
 			`mobile`, 
@@ -62,7 +62,7 @@
 		values
 		(
 			#{userId}, 
-			#{username}, 
+			#{userName}, 
 			#{password}, 
 			#{email}, 
 			#{mobile}, 
@@ -74,7 +74,7 @@
 	<update id="update" parameterType="com.manage.entity.SysUserEntity">
 		update sys_user 
 		<set> 
-			<if test="username != null">`username` = #{username}, </if>
+			<if test="userName != null">`user_name` = #{userName}, </if>
 			<if test="password != null">`password` = #{password}, </if>
 			<if test="email != null">`email` = #{email}, </if>
 			<if test="mobile != null">`mobile` = #{mobile}, </if>

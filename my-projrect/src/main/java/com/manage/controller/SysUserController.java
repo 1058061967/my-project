@@ -89,7 +89,7 @@ public class SysUserController extends AbstractController {
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:user:save")
 	public R saveUser(@RequestBody SysUserEntity user){
-		if(StringUtils.isBlank(user.getUsername())){
+		if(StringUtils.isBlank(user.getUserName())){
 			return R.error("用户名不能为空");
 		}
 		if(StringUtils.isBlank(user.getPassword())){
@@ -106,7 +106,7 @@ public class SysUserController extends AbstractController {
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:user:update")
 	public R updateUser(@RequestBody SysUserEntity user){
-		if(StringUtils.isBlank(user.getUsername())){
+		if(StringUtils.isBlank(user.getUserName())){
 			return R.error("用户名不能为空");
 		}
 		
