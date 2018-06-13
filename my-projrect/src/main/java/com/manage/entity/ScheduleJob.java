@@ -3,13 +3,14 @@ package com.manage.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class ScheduleJobLogEntity implements Serializable {
+
+public class ScheduleJob implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 
-	private Long logId;
-
-	private Long jobId;
+    public static final String JOB_PARAM_KEY = "JOB_PARAM_KEY";
+	
+	private Integer jobId;
 
 	private String beanName;
 
@@ -17,86 +18,100 @@ public class ScheduleJobLogEntity implements Serializable {
 
 	private String params;
 	
-	 //任务状态    0：成功    1：失败
+
+	private String cronExpression;
+
 	private Integer status;
-	
-	private String error;
-	
-	//耗时(单位：毫秒)
-	private Integer times;
-	
+
+	private String remark;
+
+
 	private Date createTime;
 
-	public Long getLogId() {
-		return logId;
-	}
 
-	public void setLogId(Long logId) {
-		this.logId = logId;
-	}
-
-	public Long getJobId() {
+	public Integer getJobId() {
 		return jobId;
 	}
 
-	public void setJobId(Long jobId) {
+
+	public void setJobId(Integer jobId) {
 		this.jobId = jobId;
 	}
+
 
 	public String getBeanName() {
 		return beanName;
 	}
 
+
 	public void setBeanName(String beanName) {
 		this.beanName = beanName;
 	}
+
 
 	public String getMethodName() {
 		return methodName;
 	}
 
+
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
 	}
+
 
 	public String getParams() {
 		return params;
 	}
 
+
 	public void setParams(String params) {
 		this.params = params;
 	}
+
+
+	public String getCronExpression() {
+		return cronExpression;
+	}
+
+
+	public void setCronExpression(String cronExpression) {
+		this.cronExpression = cronExpression;
+	}
+
 
 	public Integer getStatus() {
 		return status;
 	}
 
+
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public String getError() {
-		return error;
+
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setError(String error) {
-		this.error = error;
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
-	public Integer getTimes() {
-		return times;
-	}
-
-	public void setTimes(Integer times) {
-		this.times = times;
-	}
 
 	public Date getCreateTime() {
 		return createTime;
 	}
 
+
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
 }

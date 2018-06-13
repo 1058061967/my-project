@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.manage.mapper.ScheduleJobMapper">
-	<select id="queryObject" resultType="com.manage.entity.ScheduleJobEntity" >
+	<select id="queryObject" resultType="com.manage.entity.ScheduleJob" >
 		select * from schedule_job where job_id = #{value}
 	</select> 
 
-	<select id="queryList" resultType="com.manage.entity.ScheduleJobEntity" >
+	<select id="queryList" resultType="com.manage.entity.ScheduleJob" >
 		select * from schedule_job
 		<where>
 			<if test="beanName != null and beanName.trim() != ''">
@@ -27,7 +27,7 @@
 		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.manage.entity.ScheduleJobEntity" useGeneratedKeys="true" keyProperty="jobId">
+	<insert id="save" parameterType="com.manage.entity.ScheduleJob" useGeneratedKeys="true" keyProperty="jobId">
 		insert into schedule_job
 		(
 			`bean_name`, 
@@ -50,7 +50,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.manage.entity.ScheduleJobEntity">
+	<update id="update" parameterType="com.manage.entity.ScheduleJob">
 		update schedule_job 
 		<set> 
 			<if test="beanName != null">`bean_name` = #{beanName}, </if>
@@ -77,4 +77,40 @@
 			#{jobId}
 		</foreach>
 	</delete>
+	
+
+	<sql id="pagingLimit">
+		<include refid="com.manage.mapper.CommonMapper.pagingLimit" />
+	</sql>
+	
+    <sql id="scheduleJobFilter">
+ 			<if test="filter.beanName != null">
+ 				AND job.bean_name like #{filter.beanName,javaType=string,jdbcType=CHAR}
+ 			</if>			
+    </sql>
+
+	<select id="selectScheduleJobByFilter" 
+			resultType="ScheduleJob">
+		SELECT 
+				*
+	    FROM
+	    	 schedule_job job
+		<where>
+			<include refid="scheduleJobFilter"/>
+		</where>
+			<include refid="pagingLimit"/>
+	</select>
+		
+		
+	<select id="countScheduleJobByFilter"
+			 resultType="int">
+		SELECT
+			 count(*) 
+		FROM 
+			 schedule_job job
+		<where>
+			<include refid="scheduleJobFilter"/>
+		</where>
+	</select>
+	
 </mapper>

@@ -14,14 +14,14 @@ CREATE TABLE `sys_menu` (
 -- 系统用户
 CREATE TABLE `sys_user` (
   `user_id` bigint NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL COMMENT '用户名',
+  `user_name` varchar(50) NOT NULL COMMENT '用户名',
   `password` varchar(100) COMMENT '密码',
   `email` varchar(100) COMMENT '邮箱',
   `mobile` varchar(100) COMMENT '手机号',
   `status` tinyint COMMENT '状态  0：禁用   1：正常',
   `create_time` datetime COMMENT '创建时间',
   PRIMARY KEY (`user_id`),
-  UNIQUE INDEX (`username`)
+  UNIQUE INDEX (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户';
 
 -- 角色
@@ -63,7 +63,7 @@ CREATE TABLE `sys_config` (
 
 
 -- 初始数据 
-INSERT INTO `sys_user` (`user_id`, `username`, `password`, `email`, `mobile`, `status`, `create_time`) VALUES ('1', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'root@renren.io', '13612345678', '1', '2016-11-11 11:11:11');
+INSERT INTO `sys_user` (`user_id`, `user_name`, `password`, `email`, `mobile`, `status`, `create_time`) VALUES ('1', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'root@renren.io', '13612345678', '1', '2016-11-11 11:11:11');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('1', '0', '系统管理', NULL, NULL, '0', 'fa fa-cog', '0');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('2', '1', '管理员列表', 'sys/user.html', NULL, '1', 'fa fa-user', '1');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('3', '1', '角色管理', 'sys/role.html', NULL, '1', 'fa fa-user-secret', '2');

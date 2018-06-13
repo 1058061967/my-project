@@ -3,28 +3,34 @@ package com.manage.service;
 import java.util.List;
 import java.util.Map;
 
-import com.manage.entity.SysUserEntity;
+import com.manage.entity.SysUser;
+import com.manage.filter.UserFilter;
+import com.manage.model.SearchResult;
 
 public interface SysUserService {
 	
 
-	List<String> queryAllPerms(Long userId);
+	List<String> queryAllPerms(Integer userId);
 	
-	List<Long> queryAllMenuId(Long userId);
+	List<Integer> queryAllMenuId(Integer userId);
 	
-	SysUserEntity queryByUserName(String username);
+	SysUser queryByUserName(String username);
 	
-	SysUserEntity queryObject(Long userId);
+	SysUser queryObject(Integer userId);
 	
-	List<SysUserEntity> queryList(Map<String, Object> map);
+	List<SysUser> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);
 	
-	void save(SysUserEntity user);
+	void save(SysUser user);
 	
-	void update(SysUserEntity user);
+	void update(SysUser user);
 
-	void deleteBatch(Long[] userIds);
+	void deleteBatch(Integer[] userIds);
 	//修改密码
-	int updatePassword(Long userId, String password, String newPassword);
+	int updatePassword(Integer userId, String password, String newPassword);
+	
+	SearchResult<SysUser> searchUserByFilter(UserFilter filter);
+	
+	Integer countUserByFilter(UserFilter filter);
 }

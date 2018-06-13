@@ -3,11 +3,11 @@
 
 <mapper namespace="com.manage.mapper.SysMenuMapper">
 
-	<select id="queryObject" resultType="com.manage.entity.SysMenuEntity">
+	<select id="queryObject" resultType="com.manage.entity.SysMenu">
 		select * from sys_menu where menu_id = #{value}
 	</select>
 	
-	<insert id="save" parameterType="com.manage.entity.SysMenuEntity">
+	<insert id="save" parameterType="com.manage.entity.SysMenu">
 		insert into sys_menu
 		(
 			`menu_id`, 
@@ -32,15 +32,15 @@
 		)
 	</insert>
 	
-	<select id="queryListParentId" resultType="com.manage.entity.SysMenuEntity">
+	<select id="queryListParentId" resultType="com.manage.entity.SysMenu">
 		select * from sys_menu where parent_id = #{parentId} order by order_num asc 
 	</select>
 	
-	<select id="queryNotButtonList" resultType="com.manage.entity.SysMenuEntity">
+	<select id="queryNotButtonList" resultType="com.manage.entity.SysMenu">
 		select * from sys_menu where type != 2 order by order_num asc 
 	</select>
 	
-	<select id="queryList" resultType="com.manage.entity.SysMenuEntity">
+	<select id="queryList" resultType="com.manage.entity.SysMenu">
 		select m.*,(select p.name from sys_menu p where p.menu_id = m.parent_id) as parentName 
 			from sys_menu m order by m.order_num asc 
 		<if test="offset != null and limit != null">
@@ -52,7 +52,7 @@
 		select count(*) from sys_menu
 	</select>
 	 
-	<update id="update" parameterType="com.manage.entity.SysMenuEntity">
+	<update id="update" parameterType="com.manage.entity.SysMenu">
 		update sys_menu 
 		<set> 
 			<if test="parentId != null">`parent_id` = #{parentId}, </if>
@@ -77,5 +77,38 @@
 			#{menuId}
 		</foreach>
 	</delete>
+	
+	
+	
+	<sql id="pagingLimit">
+		<include refid="com.manage.mapper.CommonMapper.pagingLimit" />
+	</sql>
+
+    <sql id="menuFilter">		
+    </sql>	
+
+	<select id="selectMenuByFilter" 
+			resultType="SysMenu">
+		SELECT
+			 m.*,
+			 (select p.name from sys_menu p where p.menu_id = m.parent_id) as parentName 
+	   FROM sys_menu m 
+	   ORDER BY  m.order_num asc 
+	    <where>
+			<include refid="menuFilter"/>
+		</where>
+	   <include refid="pagingLimit"/>
+	</select>
+		
+	<select id="countMenuByFilter"
+			 resultType="int">
+		SELECT
+			 count(*) 
+		FROM 
+			 sys_menu	 
+	    <where>
+			<include refid="menuFilter"/>
+		</where> 
+	</select>		
 	
 </mapper>

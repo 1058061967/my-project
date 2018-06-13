@@ -16,7 +16,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 	private SysUserRoleMapper sysUserRoleMapper;
 
 	@Override
-	public void saveOrUpdate(Long userId, List<Long> roleIdList) {
+	public void saveOrUpdate(Integer userId, List<Integer> roleIdList) {
 		if(roleIdList.size() == 0){
 			return ;
 		}
@@ -32,12 +32,12 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 	}
 
 	@Override
-	public List<Long> queryRoleIdList(Long userId) {
+	public List<Integer> queryRoleIdList(Integer userId) {
 		return sysUserRoleMapper.queryRoleIdList(userId);
 	}
 
 	@Override
-	public void delete(Long userId) {
+	public void delete(Integer userId) {
 		sysUserRoleMapper.delete(userId);
 	}
 }

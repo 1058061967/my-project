@@ -3,17 +3,17 @@ package com.manage.service;
 import java.util.List;
 import java.util.Map;
 
-import com.manage.entity.ScheduleJobLogEntity;
+import com.manage.entity.ScheduleJobLog;
 
 public interface ScheduleJobLogService {
 
 
-	ScheduleJobLogEntity queryObject(Long jobId);
+	ScheduleJobLog queryObject(Integer jobId);
 	
-	List<ScheduleJobLogEntity> queryList(Map<String, Object> map);
+	List<ScheduleJobLog> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);
 	
-	void save(ScheduleJobLogEntity log);
+	void save(ScheduleJobLog log);
 	
 }

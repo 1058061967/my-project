@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.manage.entity.SysUserEntity;
+import com.manage.entity.SysUser;
 import com.manage.service.SysUserService;
 
 
@@ -26,7 +26,7 @@ public class TestTask {
 			e.printStackTrace();
 		}
 		
-		SysUserEntity user = sysUserService.queryObject(1L);
+		SysUser user = sysUserService.queryObject(1);
 		System.out.println(ToStringBuilder.reflectionToString(user));
 		
 	}

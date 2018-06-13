@@ -11,15 +11,15 @@ public interface BaseMapper<T> {
 	
 	void saveBatch(List<T> list);
 	
-	int update(T t);
+	Integer update(T t);
 	
-	int update(Map<String, Object> map);
+	Integer update(Map<String, Object> map);
 	
-	int delete(Object id);
+	Integer delete(Object id);
 	
-	int delete(Map<String, Object> map);
+	Integer delete(Map<String, Object> map);
 	
-	int deleteBatch(Object[] id);
+	Integer deleteBatch(Object[] id);
 
 	T queryObject(Object id);
 	
@@ -27,7 +27,7 @@ public interface BaseMapper<T> {
 	
 	List<T> queryList(Object id);
 	
-	int queryTotal(Map<String, Object> map);
+	Integer queryTotal(Map<String, Object> map);
 
-	int queryTotal();
+	Integer queryTotal();
 }

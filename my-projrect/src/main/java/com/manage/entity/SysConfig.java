@@ -1,16 +1,17 @@
 package com.manage.entity;
 
 
-public class SysConfigEntity {
-	private Long id; 
+public class SysConfig {
+	private Integer id; 
 	private String key; 
 	private String value; 
 	private String remark;
 	
-	public Long getId() {
+
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getKey() {

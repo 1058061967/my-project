@@ -5,13 +5,13 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public class SysMenuEntity implements Serializable {
+public class SysMenu implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 
-	private Long menuId;
+	private Integer menuId;
 
-	private Long parentId;
+	private Integer parentId;
 
 	private String parentName;
 
@@ -34,19 +34,20 @@ public class SysMenuEntity implements Serializable {
 	private List<?> list;
 	
 
-	public Long getMenuId() {
+
+	public Integer getMenuId() {
 		return menuId;
 	}
 
-	public void setMenuId(Long menuId) {
+	public void setMenuId(Integer menuId) {
 		this.menuId = menuId;
 	}
 
-	public Long getParentId() {
+	public Integer getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(Long parentId) {
+	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
 	}
 

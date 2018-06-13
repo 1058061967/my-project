@@ -1,8 +1,7 @@
-package com.manage.controller;
+package com.manage.controller.menu;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -12,12 +11,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.manage.entity.SysMenuEntity;
+import com.manage.controller.AbstractController;
+import com.manage.controller.menu.api.searchMenuRequest;
+import com.manage.entity.SysMenu;
+import com.manage.filter.MenuFilter;
+import com.manage.model.PagingData;
+import com.manage.model.SearchResult;
 import com.manage.service.SysMenuService;
-import com.manage.utils.PageUtils;
-import com.manage.utils.R;
-import com.manage.utils.RRException;
 import com.manage.utils.Constant.MenuType;
+import com.manage.utils.PageResponse;
+import com.manage.utils.RRException;
+import com.manage.utils.ServiceResponse;
 
 
 @RestController
@@ -31,38 +35,38 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:menu:list")
-	public R list(Integer page, Integer limit){
-		Map<String, Object> map = new HashMap<>();
-		map.put("offset", (page - 1) * limit);
-		map.put("limit", limit);
-		
-		//查询列表数据
-		List<SysMenuEntity> menuList = sysMenuService.queryList(map);
-		int total = sysMenuService.queryTotal(map);
-		
-		PageUtils pageUtil = new PageUtils(menuList, total, limit, page);
-		
-		return R.ok().put("page", pageUtil);
-	}
+	public ServiceResponse searchMenu(searchMenuRequest request){
+		MenuFilter filter = new MenuFilter();
+		filter.setPaged(request.isPaged());
+		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
+		SearchResult<SysMenu>  result = sysMenuService.searchMenuByFilter(filter);
+		PageResponse  response = new PageResponse(
+				result.getResult(),
+				result.getPagingResult().getTotalPage(),
+				result.getPagingResult().getPageSize(),
+				result.getPagingResult().getTotalPage());
+		return ServiceResponse.ok().put("page",response);
+}
+	
 	
 	/**
 	 * 选择菜单(添加、修改菜单)
 	 */
 	@RequestMapping("/select")
 	@RequiresPermissions("sys:menu:select")
-	public R select(){
+	public ServiceResponse select(){
 		//查询列表数据
-		List<SysMenuEntity> menuList = sysMenuService.queryNotButtonList();
+		List<SysMenu> menuList = sysMenuService.queryNotButtonList();
 		
 		//添加顶级菜单
-		SysMenuEntity root = new SysMenuEntity();
-		root.setMenuId(0L);
+		SysMenu root = new SysMenu();
+		root.setMenuId(0);
 		root.setName("一级菜单");
-		root.setParentId(-1L);
+		root.setParentId(-1);
 		root.setOpen(true);
 		menuList.add(root);
 		
-		return R.ok().put("menuList", menuList);
+		return ServiceResponse.ok().put("menuList", menuList);
 	}
 	
 	/**
@@ -70,11 +74,11 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/perms")
 	@RequiresPermissions("sys:menu:perms")
-	public R perms(){
+	public ServiceResponse perms(){
 		//查询列表数据
-		List<SysMenuEntity> menuList = sysMenuService.queryList(new HashMap<String, Object>());
+		List<SysMenu> menuList = sysMenuService.queryList(new HashMap<String, Object>());
 		
-		return R.ok().put("menuList", menuList);
+		return ServiceResponse.ok().put("menuList", menuList);
 	}
 	
 	/**
@@ -82,9 +86,9 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/info/{menuId}")
 	@RequiresPermissions("sys:menu:info")
-	public R info(@PathVariable("menuId") Long menuId){
-		SysMenuEntity menu = sysMenuService.queryObject(menuId);
-		return R.ok().put("menu", menu);
+	public ServiceResponse info(@PathVariable("menuId") Integer menuId){
+		SysMenu menu = sysMenuService.queryObject(menuId);
+		return ServiceResponse.ok().put("menu", menu);
 	}
 	
 	/**
@@ -92,13 +96,13 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:menu:save")
-	public R save(@RequestBody SysMenuEntity menu){
+	public ServiceResponse save(@RequestBody SysMenu menu){
 		//数据校验
 		verifyForm(menu);
 		
 		sysMenuService.save(menu);
 		
-		return R.ok();
+		return ServiceResponse.ok();
 	}
 	
 	/**
@@ -106,13 +110,13 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:menu:update")
-	public R update(@RequestBody SysMenuEntity menu){
+	public ServiceResponse update(@RequestBody SysMenu menu){
 		//数据校验
 		verifyForm(menu);
 				
 		sysMenuService.update(menu);
 		
-		return R.ok();
+		return ServiceResponse.ok();
 	}
 	
 	/**
@@ -120,31 +124,31 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:menu:delete")
-	public R delete(@RequestBody Long[] menuIds){
-		for(Long menuId : menuIds){
-			if(menuId.longValue() <= 28){
-				return R.error("系统菜单，不能删除");
+	public ServiceResponse delete(@RequestBody Integer[] menuIds){
+		for(Integer menuId : menuIds){
+			if(menuId <= 28){
+				return ServiceResponse.error("系统菜单，不能删除");
 			}
 		}
 		sysMenuService.deleteBatch(menuIds);
 		
-		return R.ok();
+		return ServiceResponse.ok();
 	}
 	
 	/**
 	 * 用户菜单列表
 	 */
 	@RequestMapping("/user")
-	public R user(){
-		List<SysMenuEntity> menuList = sysMenuService.getUserMenuList(getUserId());
+	public ServiceResponse user(){
+		List<SysMenu> menuList = sysMenuService.getUserMenuList(getUserId());
 		
-		return R.ok().put("menuList", menuList);
+		return ServiceResponse.ok().put("menuList", menuList);
 	}
 	
 	/**
 	 * 验证参数是否正确
 	 */
-	private void verifyForm(SysMenuEntity menu){
+	private void verifyForm(SysMenu menu){
 		if(StringUtils.isBlank(menu.getName())){
 			throw new RRException("菜单名称不能为空");
 		}
@@ -163,7 +167,7 @@ public class SysMenuController extends AbstractController {
 		//上级菜单类型
 		int parentType = MenuType.CATALOG.getValue();
 		if(menu.getParentId() != 0){
-			SysMenuEntity parentMenu = sysMenuService.queryObject(menu.getParentId());
+			SysMenu parentMenu = sysMenuService.queryObject(menu.getParentId());
 			parentType = parentMenu.getType();
 		}
 		

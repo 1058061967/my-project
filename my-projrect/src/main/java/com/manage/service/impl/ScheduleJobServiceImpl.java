@@ -13,8 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.manage.entity.ScheduleJobEntity;
+import com.manage.entity.ScheduleJob;
+import com.manage.filter.ScheduleJobFilter;
 import com.manage.mapper.ScheduleJobMapper;
+import com.manage.model.PagingData;
+import com.manage.model.PagingResult;
+import com.manage.model.SearchResult;
 import com.manage.service.ScheduleJobService;
 import com.manage.utils.Constant.ScheduleStatus;
 import com.manage.utils.ScheduleUtils;
@@ -31,8 +35,8 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	 */
 	@PostConstruct
 	public void init(){
-		List<ScheduleJobEntity> scheduleJobList = schedulerJobMapper.queryList(new HashMap<String, Object>());
-		for(ScheduleJobEntity scheduleJob : scheduleJobList){
+		List<ScheduleJob> scheduleJobList = schedulerJobMapper.queryList(new HashMap<String, Object>());
+		for(ScheduleJob scheduleJob : scheduleJobList){
 			CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getJobId());
             //如果不存在，则创建
             if(cronTrigger == null) {
@@ -44,12 +48,12 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	}
 	
 	@Override
-	public ScheduleJobEntity queryObject(Long jobId) {
+	public ScheduleJob queryObject(Integer jobId) {
 		return schedulerJobMapper.queryObject(jobId);
 	}
 
 	@Override
-	public List<ScheduleJobEntity> queryList(Map<String, Object> map) {
+	public List<ScheduleJob> queryList(Map<String, Object> map) {
 		return schedulerJobMapper.queryList(map);
 	}
 
@@ -60,7 +64,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 
 	@Override
 	@Transactional
-	public void save(ScheduleJobEntity scheduleJob) {
+	public void save(ScheduleJob scheduleJob) {
 		scheduleJob.setCreateTime(new Date());
 		scheduleJob.setStatus(ScheduleStatus.NORMAL.getValue());
         schedulerJobMapper.save(scheduleJob);
@@ -70,7 +74,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	
 	@Override
 	@Transactional
-	public void update(ScheduleJobEntity scheduleJob) {
+	public void update(ScheduleJob scheduleJob) {
         ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
                 
         schedulerJobMapper.update(scheduleJob);
@@ -78,8 +82,8 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 
 	@Override
 	@Transactional
-    public void deleteBatch(Long[] jobIds) {
-    	for(Long jobId : jobIds){
+    public void deleteBatch(Integer[] jobIds) {
+    	for(Integer jobId : jobIds){
     		ScheduleUtils.deleteScheduleJob(scheduler, jobId);
     	}
     	
@@ -88,7 +92,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	}
 
 	@Override
-    public int updateBatch(Long[] jobIds, int status){
+    public int updateBatch(Integer[] jobIds, int status){
     	Map<String, Object> map = new HashMap<>();
     	map.put("list", jobIds);
     	map.put("status", status);
@@ -97,16 +101,16 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
     
 	@Override
 	@Transactional
-    public void run(Long[] jobIds) {
-    	for(Long jobId : jobIds){
+    public void run(Integer[] jobIds) {
+    	for(Integer jobId : jobIds){
     		ScheduleUtils.run(scheduler, queryObject(jobId));
     	}
     }
 
 	@Override
 	@Transactional
-    public void pause(Long[] jobIds) {
-        for(Long jobId : jobIds){
+    public void pause(Integer[] jobIds) {
+        for(Integer jobId : jobIds){
     		ScheduleUtils.pauseJob(scheduler, jobId);
     	}
         
@@ -115,12 +119,28 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 
 	@Override
 	@Transactional
-    public void resume(Long[] jobIds) {
-    	for(Long jobId : jobIds){
+    public void resume(Integer[] jobIds) {
+    	for(Integer jobId : jobIds){
     		ScheduleUtils.resumeJob(scheduler, jobId);
     	}
 
     	updateBatch(jobIds, ScheduleStatus.NORMAL.getValue());
     }
+
+	@Override
+	public SearchResult<ScheduleJob> searchSchduleJobByFilter(ScheduleJobFilter filter) {
+		SearchResult<ScheduleJob> result = new SearchResult<>();
+		List<ScheduleJob> jobs = schedulerJobMapper.selectScheduleJobByFilter(filter);
+		result.setResult(jobs);
+		PagingData pagingData = filter.getPagingData();
+		if(pagingData != null && filter.isPaged()){
+			Integer recordNumber = schedulerJobMapper.countScheduleJobByFilter(filter);
+			PagingResult pagingResult = new PagingResult(recordNumber, pagingData);
+			result.setPaged(true);
+			result.setPagingResult(pagingResult);
+		}
+		return result;
+	}
+	
     
 }

@@ -1,7 +1,15 @@
 package com.manage.mapper;
 
-import com.manage.entity.SysRoleEntity;
+import java.util.List;
 
-public interface SysRoleMapper extends BaseMapper<SysRoleEntity> {
+import org.apache.ibatis.annotations.Param;
+
+import com.manage.entity.SysRole;
+import com.manage.filter.RoleFilter;
+
+public interface SysRoleMapper extends BaseMapper<SysRole> {
 	
+     List<SysRole> selectRoleByFilter(@Param("filter") RoleFilter filter);
+     
+     Integer countRoleByFilter(@Param("filter") RoleFilter filter);
 }

@@ -21,8 +21,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.manage.entity.SysMenuEntity;
-import com.manage.entity.SysUserEntity;
+import com.manage.entity.SysMenu;
+import com.manage.entity.SysUser;
 import com.manage.service.SysMenuService;
 import com.manage.service.SysUserService;
 
@@ -40,16 +40,16 @@ public class UserRealm extends AuthorizingRealm {
      */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		SysUserEntity user = (SysUserEntity)principals.getPrimaryPrincipal();
-		Long userId = user.getUserId();
+		SysUser user = (SysUser)principals.getPrimaryPrincipal();
+		Integer userId = user.getUserId();
 		
 		List<String> permsList = null;
 		
 		//系统管理员，拥有最高权限
 		if(userId == 1){
-			List<SysMenuEntity> menuList = sysMenuService.queryList(new HashMap<String, Object>());
+			List<SysMenu> menuList = sysMenuService.queryList(new HashMap<String, Object>());
 			permsList = new ArrayList<>(menuList.size());
-			for(SysMenuEntity menu : menuList){
+			for(SysMenu menu : menuList){
 				permsList.add(menu.getPerms());
 			}
 		}else{
@@ -80,7 +80,7 @@ public class UserRealm extends AuthorizingRealm {
         String password = new String((char[]) token.getCredentials());
         
         //查询用户信息
-        SysUserEntity user = sysUserService.queryByUserName(username);
+        SysUser user = sysUserService.queryByUserName(username);
         
         //账号不存在
         if(user == null) {

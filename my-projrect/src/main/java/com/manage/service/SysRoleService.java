@@ -3,19 +3,23 @@ package com.manage.service;
 import java.util.List;
 import java.util.Map;
 
-import com.manage.entity.SysRoleEntity;
+import com.manage.entity.SysRole;
+import com.manage.filter.RoleFilter;
+import com.manage.model.SearchResult;
 
 public interface SysRoleService {
 	
-	SysRoleEntity queryObject(Long roleId);
+	SysRole queryObject(Integer roleId);
 	
-	List<SysRoleEntity> queryList(Map<String, Object> map);
+	List<SysRole> queryList(Map<String, Object> map);
 	
-	int queryTotal(Map<String, Object> map);
+	Integer queryTotal(Map<String, Object> map);
 	
-	void save(SysRoleEntity role);
+	void save(SysRole role);
 	
-	void update(SysRoleEntity role);
+	void update(SysRole role);
 	
-	void deleteBatch(Long[] roleIds);
+	void deleteBatch(Integer[] roleIds);
+	
+	SearchResult<SysRole> searchRoleByFilter(RoleFilter filter);
 }

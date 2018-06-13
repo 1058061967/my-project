@@ -1,31 +1,37 @@
 package com.manage.service;
 
+import java.awt.Menu;
 import java.util.List;
 import java.util.Map;
 
-import com.manage.entity.SysMenuEntity;
+import com.manage.entity.SysMenu;
+import com.manage.filter.MenuFilter;
+import com.manage.model.SearchResult;
 
 
 
 public interface SysMenuService {
 	
 	// 根据父菜单，查询子菜单
-	List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList);
+	List<SysMenu> queryListParentId(Integer parentId, List<Integer> menuIdList);
 	
-	List<SysMenuEntity> queryNotButtonList();
+	List<SysMenu> queryNotButtonList();
 	
-	List<SysMenuEntity> getUserMenuList(Long userId);
+	List<SysMenu> getUserMenuList(Integer userId);
 	
-	SysMenuEntity queryObject(Long menuId);
+	SysMenu queryObject(Integer menuId);
 	
 
-	List<SysMenuEntity> queryList(Map<String, Object> map);
+	List<SysMenu> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);
 	
-	void save(SysMenuEntity menu);
+	void save(SysMenu menu);
 
-	void update(SysMenuEntity menu);
+	void update(SysMenu menu);
 	
-	void deleteBatch(Long[] menuIds);
+	void deleteBatch(Integer[] menuIds);
+	
+	SearchResult<SysMenu> searchMenuByFilter(MenuFilter filter);
+	
 }

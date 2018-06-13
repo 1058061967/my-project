@@ -3,28 +3,33 @@ package com.manage.service;
 import java.util.List;
 import java.util.Map;
 
-import com.manage.entity.ScheduleJobEntity;
+import com.manage.entity.ScheduleJob;
+import com.manage.filter.ScheduleJobFilter;
+import com.manage.filter.ScheduleJobFilter;
+import com.manage.model.SearchResult;
 
 
 public interface ScheduleJobService {
 
-	ScheduleJobEntity queryObject(Long jobId);
+	ScheduleJob queryObject(Integer jobId);
 
-	List<ScheduleJobEntity> queryList(Map<String, Object> map);
+	List<ScheduleJob> queryList(Map<String, Object> map);
 
 	int queryTotal(Map<String, Object> map);
 
-	void save(ScheduleJobEntity scheduleJob);
+	void save(ScheduleJob scheduleJob);
 
-	void update(ScheduleJobEntity scheduleJob);
+	void update(ScheduleJob scheduleJob);
 
-	void deleteBatch(Long[] jobIds);
+	void deleteBatch(Integer[] jobIds);
 
-	int updateBatch(Long[] jobIds, int status);
+	int updateBatch(Integer[] jobIds, int status);
 
-	void run(Long[] jobIds);
+	void run(Integer[] jobIds);
 
-	void pause(Long[] jobIds);
+	void pause(Integer[] jobIds);
 
-	void resume(Long[] jobIds);
+	void resume(Integer[] jobIds);
+	
+	SearchResult<ScheduleJob> searchSchduleJobByFilter(ScheduleJobFilter filter);
 }

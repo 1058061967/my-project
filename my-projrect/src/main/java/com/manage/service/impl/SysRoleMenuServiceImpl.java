@@ -18,7 +18,7 @@ public class SysRoleMenuServiceImpl implements SysRoleMenuService {
 
 	@Override
 	@Transactional
-	public void saveOrUpdate(Long roleId, List<Long> menuIdList) {
+	public void saveOrUpdate(Integer roleId, List<Integer> menuIdList) {
 		if(menuIdList.size() == 0){
 			return ;
 		}
@@ -33,7 +33,7 @@ public class SysRoleMenuServiceImpl implements SysRoleMenuService {
 	}
 
 	@Override
-	public List<Long> queryMenuIdList(Long roleId) {
+	public List<Integer> queryMenuIdList(Integer roleId) {
 		return sysRoleMenuMapper.queryMenuIdList(roleId);
 	}
 

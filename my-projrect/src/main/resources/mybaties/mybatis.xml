@@ -5,4 +5,14 @@
 	<settings>  
 		<setting name="mapUnderscoreToCamelCase" value="true" />  
     </settings>
+    
+	<typeAliases>
+		<typeAlias alias="Bool" type="com.manage.model.Bool"/>
+		<typeAlias alias="EnumIdTypeHandler" type="com.manage.model.EnumIdTypeHandler"/>
+		<typeAlias alias="SysUser" type="com.manage.entity.SysUser"/>
+		<typeAlias alias="SysRole" type="com.manage.entity.SysRole"/>
+		<typeAlias alias="SysMenu" type="com.manage.entity.SysMenu"/>
+		<typeAlias alias="ScheduleJob" type="com.manage.entity.ScheduleJob"/>
+	</typeAliases>    
+	
 </configuration>

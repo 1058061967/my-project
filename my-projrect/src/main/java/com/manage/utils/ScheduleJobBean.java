@@ -12,28 +12,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.manage.entity.ScheduleJobEntity;
-import com.manage.entity.ScheduleJobLogEntity;
+import com.manage.entity.ScheduleJob;
+import com.manage.entity.ScheduleJobLog;
 import com.manage.service.ScheduleJobLogService;
 
 
 /**
  * 定时任务
  */
-public class ScheduleJob extends QuartzJobBean {
+public class ScheduleJobBean extends QuartzJobBean {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private ExecutorService service = Executors.newSingleThreadExecutor(); 
 	
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        ScheduleJobEntity scheduleJob = (ScheduleJobEntity) context.getMergedJobDataMap()
-        		.get(ScheduleJobEntity.JOB_PARAM_KEY);
+        ScheduleJob scheduleJob = (ScheduleJob) context.getMergedJobDataMap()
+        		.get(ScheduleJob.JOB_PARAM_KEY);
         
         //获取spring bean
         ScheduleJobLogService scheduleJobLogService = (ScheduleJobLogService) SpringContextUtils.getBean("scheduleJobLogService");
         
         //数据库保存执行记录
-        ScheduleJobLogEntity log = new ScheduleJobLogEntity();
+        ScheduleJobLog log = new ScheduleJobLog();
         log.setJobId(scheduleJob.getJobId());
         log.setBeanName(scheduleJob.getBeanName());
         log.setMethodName(scheduleJob.getMethodName());

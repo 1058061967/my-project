@@ -3,7 +3,7 @@
 
 <mapper namespace="com.manage.mapper.SysUserRoleMapper">
 
-	<select id="queryList" resultType="com.manage.entity.SysUserRoleEntity">
+	<select id="queryList" resultType="com.manage.entity.SysUserRole">
 		select * from sys_user_role 
 		<where>
 			<if test="userId != null">

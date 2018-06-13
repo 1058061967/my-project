@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-import com.manage.utils.R;
+import com.manage.utils.ServiceResponse;
 import com.manage.utils.ShiroUtils;
 
 
@@ -53,10 +53,10 @@ public class SysLoginController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
-	public R login(String username, String password, String captcha)throws IOException {
+	public ServiceResponse login(String username, String password, String captcha)throws IOException {
 		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
 		if(!captcha.equalsIgnoreCase(kaptcha)){
-			return R.error("验证码不正确");
+			return ServiceResponse.error("验证码不正确");
 		}
 		
 		try{
@@ -66,16 +66,16 @@ public class SysLoginController {
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 			subject.login(token);
 		}catch (UnknownAccountException e) {
-			return R.error(e.getMessage());
+			return ServiceResponse.error(e.getMessage());
 		}catch (IncorrectCredentialsException e) {
-			return R.error(e.getMessage());
+			return ServiceResponse.error(e.getMessage());
 		}catch (LockedAccountException e) {
-			return R.error(e.getMessage());
+			return ServiceResponse.error(e.getMessage());
 		}catch (AuthenticationException e) {
-			return R.error("账户验证失败");
+			return ServiceResponse.error("账户验证失败");
 		}
 	    
-		return R.ok();
+		return ServiceResponse.ok();
 	}
 	
 	/**

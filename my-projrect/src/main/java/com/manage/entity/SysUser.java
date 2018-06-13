@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class SysUserEntity implements Serializable {
+public class SysUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Long userId;
+	private Integer userId;
 	
 	private String userName;
 
@@ -19,24 +19,27 @@ public class SysUserEntity implements Serializable {
 
 	private Integer status;
 	
-	private List<Long> roleIdList;
+	private List<Integer> roleIdList;
 
 	private Date createTime;
 	
-	
 
-	public Long getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
 	public String getUserName() {
 		return userName;
 	}
 
 	public void setUserName(String userName) {
+		if(userName != null) {
+			userName = "%" + userName + "%";
+		}
 		this.userName = userName;
 	}
 
@@ -72,11 +75,11 @@ public class SysUserEntity implements Serializable {
 		this.status = status;
 	}
 
-	public List<Long> getRoleIdList() {
+	public List<Integer> getRoleIdList() {
 		return roleIdList;
 	}
 
-	public void setRoleIdList(List<Long> roleIdList) {
+	public void setRoleIdList(List<Integer> roleIdList) {
 		this.roleIdList = roleIdList;
 	}
 

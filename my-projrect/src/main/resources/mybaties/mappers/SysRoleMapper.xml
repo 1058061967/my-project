@@ -3,11 +3,11 @@
 
 <mapper namespace="com.manage.mapper.SysRoleMapper">
 
-	<select id="queryObject" resultType="com.manage.entity.SysRoleEntity">
+	<select id="queryObject" resultType="com.manage.entity.SysRole">
 		select * from sys_role where role_id = #{value}
 	</select>
 	
-	 <select id="queryList" resultType="com.manage.entity.SysRoleEntity">
+	 <select id="queryList" resultType="com.manage.entity.SysRole">
 		select * from sys_role 
 		<where>
 			<if test="roleName != null and roleName.trim() != ''">
@@ -29,7 +29,7 @@
 		</where>
 	</select>
 	
-	<insert id="save" parameterType="com.manage.entity.SysRoleEntity" useGeneratedKeys="true" keyProperty="roleId">
+	<insert id="save" parameterType="com.manage.entity.SysRole" useGeneratedKeys="true" keyProperty="roleId">
 		insert into sys_role
 		(
 			`role_id`, 
@@ -46,7 +46,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.manage.entity.SysRoleEntity">
+	<update id="update" parameterType="com.manage.entity.SysRole">
 		update sys_role 
 		<set> 
 			<if test="roleName != null">`role_name` = #{roleName}, </if>
@@ -71,6 +71,43 @@
 			#{roleId}
 		</foreach>
 	</delete>
+	
+
+	<sql id="pagingLimit">
+		<include refid="com.manage.mapper.CommonMapper.pagingLimit" />
+	</sql>
+	
+	
+   <sql id="roleFilter">
+ 			<if test="filter.roleName != null">
+ 				AND role.role_name like #{filter.roleName ,javaType=string,jdbcType=CHAR}
+ 			</if>			
+    </sql>
+
+	<select id="selectRoleByFilter" 
+			resultType="SysRole">
+		SELECT 
+				*
+	    FROM
+	    	 sys_role role
+		<where>
+			<include refid="roleFilter"/>
+		</where>
+			<include refid="pagingLimit"/>
+	</select>
+		
+		
+	<select id="countRoleByFilter"
+			 resultType="int">
+		SELECT
+			 count(*) 
+		FROM 
+			 sys_role role
+		<where>
+			<include refid="roleFilter"/>
+		</where>
+	</select>		
+	
 	
 
 </mapper>

@@ -1,8 +1,8 @@
 package com.manage.mapper;
 
-import com.manage.entity.ScheduleJobLogEntity;
+import com.manage.entity.ScheduleJobLog;
 
 
-public interface ScheduleJobLogMapper extends BaseMapper<ScheduleJobLogEntity> {
+public interface ScheduleJobLogMapper extends BaseMapper<ScheduleJobLog> {
 	
 }

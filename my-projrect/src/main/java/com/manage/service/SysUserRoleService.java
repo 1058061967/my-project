@@ -4,9 +4,9 @@ import java.util.List;
 // 用户与角色对应关系
 public interface SysUserRoleService {
 	
-	void saveOrUpdate(Long userId, List<Long> roleIdList);
+	void saveOrUpdate(Integer userId, List<Integer> roleIdList);
 	//根据用户ID，获取角色ID列表
-	List<Long> queryRoleIdList(Long userId);
+	List<Integer> queryRoleIdList(Integer userId);
 	
-	void delete(Long userId);
+	void delete(Integer userId);
 }

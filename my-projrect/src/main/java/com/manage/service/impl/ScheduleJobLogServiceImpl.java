@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.manage.entity.ScheduleJobLogEntity;
+import com.manage.entity.ScheduleJobLog;
 import com.manage.mapper.ScheduleJobLogMapper;
 import com.manage.service.ScheduleJobLogService;
 
@@ -16,12 +16,12 @@ public class ScheduleJobLogServiceImpl implements ScheduleJobLogService {
 	private ScheduleJobLogMapper scheduleJobLogMapper;
 	
 	@Override
-	public ScheduleJobLogEntity queryObject(Long jobId) {
+	public ScheduleJobLog queryObject(Integer jobId) {
 		return scheduleJobLogMapper.queryObject(jobId);
 	}
 
 	@Override
-	public List<ScheduleJobLogEntity> queryList(Map<String, Object> map) {
+	public List<ScheduleJobLog> queryList(Map<String, Object> map) {
 		return scheduleJobLogMapper.queryList(map);
 	}
 
@@ -31,7 +31,7 @@ public class ScheduleJobLogServiceImpl implements ScheduleJobLogService {
 	}
 
 	@Override
-	public void save(ScheduleJobLogEntity log) {
+	public void save(ScheduleJobLog log) {
 		scheduleJobLogMapper.save(log);
 	}
 

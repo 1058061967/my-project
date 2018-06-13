@@ -5,24 +5,25 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class SysRoleEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class SysRole implements Serializable {
+	private static final Long serialVersionUID = 1L;
 	
-	private Long roleId;
+	private Integer roleId;
 
 	private String roleName;
 
 	private String remark;
 	
-	private List<Long> menuIdList;
+	private List<Integer> menuIdList;
 	
 	private Date createTime;
 
-	public Long getRoleId() {
+
+	public Integer getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Long roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 
@@ -42,11 +43,11 @@ public class SysRoleEntity implements Serializable {
 		this.remark = remark;
 	}
 
-	public List<Long> getMenuIdList() {
+	public List<Integer> getMenuIdList() {
 		return menuIdList;
 	}
 
-	public void setMenuIdList(List<Long> menuIdList) {
+	public void setMenuIdList(List<Integer> menuIdList) {
 		this.menuIdList = menuIdList;
 	}
 

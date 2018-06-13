@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.manage.entity.SysConfigEntity;
+import com.manage.entity.SysConfig;
 import com.manage.service.SysConfigService;
-import com.manage.utils.PageUtils;
-import com.manage.utils.R;
+import com.manage.utils.PageResponse;
+import com.manage.utils.ServiceResponse;
+import com.mysql.fabric.Response;
 import com.manage.utils.RRException;
 
 
@@ -30,19 +31,19 @@ public class SysConfigController extends AbstractController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:config:list")
-	public R list(String key, Integer page, Integer limit){
+	public ServiceResponse list(String key, Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
 		map.put("key", key);
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
 		
 		//查询列表数据
-		List<SysConfigEntity> configList = sysConfigService.queryList(map);
+		List<SysConfig> configList = sysConfigService.queryList(map);
 		int total = sysConfigService.queryTotal(map);
 		
-		PageUtils pageUtil = new PageUtils(configList, total, limit, page);
+		PageResponse  response = new PageResponse(configList, total, limit, page);
 		
-		return R.ok().put("page", pageUtil);
+		return ServiceResponse.ok().put("page", response);
 	}
 	
 	
@@ -51,10 +52,10 @@ public class SysConfigController extends AbstractController {
 	 */
 	@RequestMapping("/info/{id}")
 	@RequiresPermissions("sys:config:info")
-	public R info(@PathVariable("id") Long id){
-		SysConfigEntity config = sysConfigService.queryObject(id);
+	public ServiceResponse info(@PathVariable("id") Integer id){
+		SysConfig config = sysConfigService.queryObject(id);
 		
-		return R.ok().put("config", config);
+		return ServiceResponse.ok().put("config", config);
 	}
 	
 	/**
@@ -62,13 +63,13 @@ public class SysConfigController extends AbstractController {
 	 */
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:config:save")
-	public R save(@RequestBody SysConfigEntity config){
+	public ServiceResponse save(@RequestBody SysConfig config){
 		//参数校验
 		verifyForm(config);
 
 		sysConfigService.save(config);
 		
-		return R.ok();
+		return ServiceResponse.ok();
 	}
 	
 	/**
@@ -76,13 +77,13 @@ public class SysConfigController extends AbstractController {
 	 */
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:config:update")
-	public R update(@RequestBody SysConfigEntity config){
+	public ServiceResponse update(@RequestBody SysConfig config){
 		//参数校验
 		verifyForm(config);
 		
 		sysConfigService.update(config);
 		
-		return R.ok();
+		return ServiceResponse.ok();
 	}
 	
 	/**
@@ -90,16 +91,16 @@ public class SysConfigController extends AbstractController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:config:delete")
-	public R delete(@RequestBody Long[] ids){
+	public ServiceResponse delete(@RequestBody Integer[] ids){
 		sysConfigService.deleteBatch(ids);
 		
-		return R.ok();
+		return ServiceResponse.ok();
 	}
 	
 	/**
 	 * 验证参数是否正确
 	 */
-	private void verifyForm(SysConfigEntity config){
+	private void verifyForm(SysConfig config){
 		if(StringUtils.isBlank(config.getKey())){
 			throw new RRException("参数名不能为空");
 		}

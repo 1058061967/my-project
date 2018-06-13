@@ -3,15 +3,21 @@ package com.manage.mapper;
 import java.util.List;
 import java.util.Map;
 
-import com.manage.entity.SysUserEntity;
+import org.apache.ibatis.annotations.Param;
 
-public interface SysUserMapper extends BaseMapper<SysUserEntity> {
+import com.manage.entity.SysUser;
+import com.manage.filter.UserFilter;
+
+public interface SysUserMapper extends BaseMapper<SysUser> {
 	
-	List<String> queryAllPerms(Long userId);
+	List<String> queryAllPerms(Integer userId);
 	
-	List<Long> queryAllMenuId(Long userId);
+	List<Integer> queryAllMenuId(Integer userId);
 	
-	SysUserEntity queryByUserName(String username);
+	SysUser queryByUserName(String username);
 
 	int updatePassword(Map<String, Object> map);
+	
+	List<SysUser> selectUserByFilter(@Param("filter") UserFilter filter);
+	Integer countUserByFilter(@Param("filter") UserFilter filter);
 }

@@ -2,38 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.manage.mapper.SysUserMapper">
-	<select id="queryObject" resultType="com.manage.entity.SysUserEntity">
+
+
+	<select id="queryObject" resultType="SysUser">
 		select * from sys_user where user_id = #{value}
-	</select>
-	
-	<select id="queryList" resultType="com.manage.entity.SysUserEntity">
-		select * from sys_user 
-		<where>
-			<if test="userName != null and userName.trim() != ''">
-				and `user_name` like concat('%',#{userName},'%') 
-			</if>
-		</where>
-		order by user_id desc
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
-	</select>
-	
-	<select id="queryTotal" resultType="int">
-		select count(*) from sys_user
-		<where>
-			<if test="userName != null and userName.trim() != ''">
-				and `user_name` like concat('%',#{userName},'%') 
-			</if>
-		</where>
-	</select>
+	</select>	
 	
 	<!-- 查询用户的所有权限 -->
 	<select id="queryAllPerms" resultType="String">
 		select m.perms from sys_user_role ur 
 			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id 
 			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id 
-		where ur.user_id = #{userId}
+		where ur.SysUser_id = #{userId}
 	</select>
 	
 	<!-- 查询用户的所有菜单ID --> 
@@ -41,14 +21,14 @@
 		select m.menu_id from sys_user_role ur 
 			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id 
 			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id 
-		where ur.user_id = #{userId}
+		where ur.SysUser_id = #{userId}
 	</select>
 	
-	<select id="queryByUserName" resultType="com.manage.entity.SysUserEntity">
+	<select id="queryByUserName" resultType="com.manage.entity.SysUser">
 		select * from sys_user where user_name = #{userName}
 	</select>
 	
-	<insert id="save" parameterType="com.manage.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="userId">
+	<insert id="save" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
 		insert into sys_user
 		(
 			`user_id`, 
@@ -71,7 +51,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.manage.entity.SysUserEntity">
+	<update id="update" parameterType="SysUser">
 		update sys_user 
 		<set> 
 			<if test="userName != null">`user_name` = #{userName}, </if>
@@ -99,5 +79,39 @@
 			#{userId}
 		</foreach>
 	</delete>
+	
+	<sql id="pagingLimit">
+		<include refid="com.manage.mapper.CommonMapper.pagingLimit" />
+	</sql>
+	
+    <sql id="userFilter">
+ 			<if test="filter.userName != null">
+ 				AND user.user_name like #{filter.userName,javaType=string,jdbcType=CHAR}
+ 			</if>			
+    </sql>
+
+	<select id="selectUserByFilter" 
+			resultType="SysUser">
+		SELECT 
+				*
+	    FROM
+	    	 sys_user user
+		<where>
+			<include refid="userFilter"/>
+		</where>
+			<include refid="pagingLimit"/>
+	</select>
+		
+		
+	<select id="countUserByFilter"
+			 resultType="int">
+		SELECT
+			 count(*) 
+		FROM 
+			 sys_user user
+		<where>
+			<include refid="userFilter"/>
+		</where>
+	</select>	
 
 </mapper>

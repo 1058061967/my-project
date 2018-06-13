@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.manage.entity.SysConfigEntity;
+import com.manage.entity.SysConfig;
 import com.manage.mapper.SysConfigMapper;
 import com.manage.service.SysConfigService;
 
@@ -18,12 +18,12 @@ public class SysConfigServiceImpl implements SysConfigService {
 	private SysConfigMapper sysConfigMapper;
 	
 	@Override
-	public void save(SysConfigEntity config) {
+	public void save(SysConfig config) {
 		sysConfigMapper.save(config);
 	}
 
 	@Override
-	public void update(SysConfigEntity config) {
+	public void update(SysConfig config) {
 		sysConfigMapper.update(config);
 	}
 
@@ -33,12 +33,12 @@ public class SysConfigServiceImpl implements SysConfigService {
 	}
 
 	@Override
-	public void deleteBatch(Long[] ids) {
+	public void deleteBatch(Integer[] ids) {
 		sysConfigMapper.deleteBatch(ids);
 	}
 
 	@Override
-	public List<SysConfigEntity> queryList(Map<String, Object> map) {
+	public List<SysConfig> queryList(Map<String, Object> map) {
 		return sysConfigMapper.queryList(map);
 	}
 
@@ -48,7 +48,7 @@ public class SysConfigServiceImpl implements SysConfigService {
 	}
 
 	@Override
-	public SysConfigEntity queryObject(Long id) {
+	public SysConfig queryObject(Integer id) {
 		return sysConfigMapper.queryObject(id);
 	}
 
@@ -62,7 +62,7 @@ public class SysConfigServiceImpl implements SysConfigService {
 	}
 	
 	@Override
-	public <T> T getConfigObject(String key, Class<T> clazz) throws Exception {
+	public <T> T getSysConfigObject(String key, Class<T> clazz) throws Exception {
 		String value = getValue(key, null);
 		if(StringUtils.isNotBlank(value)){
 			return JSON.parseObject(value, clazz);

@@ -4,7 +4,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import com.manage.entity.SysUserEntity;
+import com.manage.entity.SysUser;
 
 /**
  * Shiro工具类
@@ -19,11 +19,11 @@ public class ShiroUtils {
 		return SecurityUtils.getSubject();
 	}
 
-	public static SysUserEntity getUserEntity() {
-		return (SysUserEntity)SecurityUtils.getSubject().getPrincipal();
+	public static SysUser getUserEntity() {
+		return (SysUser)SecurityUtils.getSubject().getPrincipal();
 	}
 
-	public static Long getUserId() {
+	public static Integer getUserId() {
 		return getUserEntity().getUserId();
 	}
 	

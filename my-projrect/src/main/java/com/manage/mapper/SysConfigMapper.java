@@ -2,10 +2,10 @@ package com.manage.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.manage.entity.SysConfigEntity;
+import com.manage.entity.SysConfig;
 
 
-public interface SysConfigMapper extends BaseMapper<SysConfigEntity> {
+public interface SysConfigMapper extends BaseMapper<SysConfig> {
 	
 	/**
 	 * 根据key，查询value

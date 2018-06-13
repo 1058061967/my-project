@@ -1,4 +1,4 @@
-package com.manage.controller;
+package com.manage.controller.schedule;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.manage.entity.ScheduleJobLogEntity;
+import com.manage.entity.ScheduleJobLog;
 import com.manage.service.ScheduleJobLogService;
-import com.manage.utils.PageUtils;
-import com.manage.utils.R;
+import com.manage.utils.PageResponse;
+import com.manage.utils.ServiceResponse;
 
 
 @RestController
@@ -27,28 +27,28 @@ public class ScheduleJobLogController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:schedule:log")
-	public R list(Integer page, Integer limit, Integer jobId){
+	public ServiceResponse list(Integer page, Integer limit, Integer jobId){
 		Map<String, Object> map = new HashMap<>();
 		map.put("jobId", jobId);
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
 		
 		//查询列表数据
-		List<ScheduleJobLogEntity> jobList = scheduleJobLogService.queryList(map);
+		List<ScheduleJobLog> jobList = scheduleJobLogService.queryList(map);
 		int total = scheduleJobLogService.queryTotal(map);
 		
-		PageUtils pageUtil = new PageUtils(jobList, total, limit, page);
+		PageResponse pageResult = new PageResponse(jobList, total, limit, page);
 		
-		return R.ok().put("page", pageUtil);
+		return ServiceResponse.ok().put("page", pageResult);
 	}
 	
 	/**
 	 * 定时任务日志信息
 	 */
 	@RequestMapping("/info/{logId}")
-	public R info(@PathVariable("logId") Long logId){
-		ScheduleJobLogEntity log = scheduleJobLogService.queryObject(logId);
+	public ServiceResponse info(@PathVariable("logId") Integer logId){
+		ScheduleJobLog log = scheduleJobLogService.queryObject(logId);
 		
-		return R.ok().put("log", log);
+		return ServiceResponse.ok().put("log", log);
 	}
 }

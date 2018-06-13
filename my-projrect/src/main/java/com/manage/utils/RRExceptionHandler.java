@@ -23,7 +23,7 @@ public class RRExceptionHandler implements HandlerExceptionResolver {
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex) {
-		R r = new R();
+		ServiceResponse r = new ServiceResponse();
 		try {
 			response.setContentType("application/json;charset=utf-8");
 			response.setCharacterEncoding("utf-8");
@@ -32,11 +32,11 @@ public class RRExceptionHandler implements HandlerExceptionResolver {
 				r.put("code", ((RRException) ex).getCode());
 				r.put("msg", ((RRException) ex).getMessage());
 			}else if(ex instanceof DuplicateKeyException){
-				r = R.error("数据库中已存在该记录");
+				r = ServiceResponse.error("数据库中已存在该记录");
 			}else if(ex instanceof AuthorizationException){
-				r = R.error("没有权限，请联系管理员授权");
+				r = ServiceResponse.error("没有权限，请联系管理员授权");
 			}else{
-				r = R.error();
+				r = ServiceResponse.error();
 			}
 			
 			//记录异常日志
