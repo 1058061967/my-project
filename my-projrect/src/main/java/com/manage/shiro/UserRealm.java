@@ -80,7 +80,7 @@ public class UserRealm extends AuthorizingRealm {
         String password = new String((char[]) token.getCredentials());
         
         //查询用户信息
-        SysUser user = sysUserService.queryByUserName(username);
+        SysUser user = sysUserService.searchUserByName(username);
         
         //账号不存在
         if(user == null) {

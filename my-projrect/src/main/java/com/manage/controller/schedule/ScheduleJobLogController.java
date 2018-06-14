@@ -1,16 +1,17 @@
 package com.manage.controller.schedule;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.manage.controller.schedule.api.ScheduleJobLogVO;
+import com.manage.controller.schedule.api.SearchScheduleJobLogRequest;
 import com.manage.entity.ScheduleJobLog;
+import com.manage.filter.ScheduleJobLogFilter;
+import com.manage.model.PagingData;
+import com.manage.model.SearchResult;
 import com.manage.service.ScheduleJobLogService;
 import com.manage.utils.PageResponse;
 import com.manage.utils.ServiceResponse;
@@ -27,20 +28,21 @@ public class ScheduleJobLogController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:schedule:log")
-	public ServiceResponse list(Integer page, Integer limit, Integer jobId){
-		Map<String, Object> map = new HashMap<>();
-		map.put("jobId", jobId);
-		map.put("offset", (page - 1) * limit);
-		map.put("limit", limit);
-		
-		//查询列表数据
-		List<ScheduleJobLog> jobList = scheduleJobLogService.queryList(map);
-		int total = scheduleJobLogService.queryTotal(map);
-		
-		PageResponse pageResult = new PageResponse(jobList, total, limit, page);
-		
-		return ServiceResponse.ok().put("page", pageResult);
-	}
+	public ServiceResponse searchSheduleJobLog(SearchScheduleJobLogRequest request){
+
+		ScheduleJobLogFilter filter = new ScheduleJobLogFilter();
+		filter.setJobId(request.getJobId());
+		filter.setPaged(true);
+		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
+		SearchResult<ScheduleJobLog> result = scheduleJobLogService.searchShceduleJobLogByFilter(filter);
+		PageResponse response = new PageResponse(
+				ScheduleJobLogVO.toVOs(result.getResult()),
+				result.getPagingResult().getRecordNumber(),
+				result.getPagingResult().getPageSize(),
+				result.getPagingResult().getTotalPage());
+		return ServiceResponse.ok().put("page",response);
+	}	
+	
 	
 	/**
 	 * 定时任务日志信息

@@ -11,6 +11,9 @@ public class UserFilter extends SearchFilter{
 	}
 
 	public void setUserName(String userName) {
+		if(userName != null) {
+			userName = "%" + userName + "%";
+		}
 		this.userName = userName;
 	}
 	

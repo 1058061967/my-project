@@ -26,7 +26,7 @@ public class TestTask {
 			e.printStackTrace();
 		}
 		
-		SysUser user = sysUserService.queryObject(1);
+		SysUser user = sysUserService.searchUserById(1);
 		System.out.println(ToStringBuilder.reflectionToString(user));
 		
 	}

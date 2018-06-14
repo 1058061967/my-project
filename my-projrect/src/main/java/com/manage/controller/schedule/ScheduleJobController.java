@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.manage.controller.schedule.api.ScheduleJobVO;
 import com.manage.controller.schedule.api.SearchSchduleJobRequest;
 import com.manage.entity.ScheduleJob;
 import com.manage.filter.ScheduleJobFilter;
@@ -30,20 +31,6 @@ public class ScheduleJobController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:schedule:list")
-//	public ServiceResponse list(String beanName, Integer page, Integer limit){
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("beanName", beanName);
-//		map.put("offset", (page - 1) * limit);
-//		map.put("limit", limit);
-//		
-//		//查询列表数据
-//		List<ScheduleJob> jobList = scheduleJobService.queryList(map);
-//		int total = scheduleJobService.queryTotal(map);
-//		
-//		PageResponse  response = new PageResponse(jobList, total, limit, page);
-//		
-//		return ServiceResponse.ok().put("page", response);
-//	}
 	public ServiceResponse searchSchduleJob(SearchSchduleJobRequest request){
 		
 		ScheduleJobFilter filter = new ScheduleJobFilter();
@@ -52,7 +39,7 @@ public class ScheduleJobController {
 		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
 		SearchResult<ScheduleJob> result = scheduleJobService.searchSchduleJobByFilter(filter);
 		PageResponse response = new PageResponse(
-				result.getResult(),
+				ScheduleJobVO.toVOs(result.getResult()),
 				result.getPagingResult().getRecordNumber(),
 				result.getPagingResult().getPageSize(),
 				result.getPagingResult().getTotalPage());

@@ -12,7 +12,9 @@
 		<typeAlias alias="SysUser" type="com.manage.entity.SysUser"/>
 		<typeAlias alias="SysRole" type="com.manage.entity.SysRole"/>
 		<typeAlias alias="SysMenu" type="com.manage.entity.SysMenu"/>
+		<typeAlias alias="SysConfig" type="com.manage.entity.SysConfig"/>
 		<typeAlias alias="ScheduleJob" type="com.manage.entity.ScheduleJob"/>
+		<typeAlias alias="ScheduleJobLog" type="com.manage.entity.ScheduleJobLog"/>
 	</typeAliases>    
 	
 </configuration>

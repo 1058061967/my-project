@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.manage.controller.AbstractController;
+import com.manage.controller.common.AbstractController;
 import com.manage.controller.role.api.SearchRoleRequest;
+import com.manage.controller.role.api.SysRoleVO;
 import com.manage.entity.SysRole;
 import com.manage.filter.RoleFilter;
 import com.manage.model.PagingData;
@@ -39,7 +40,7 @@ public class SysRoleController extends AbstractController {
 		filter.setPaged(request.isPaged());
 		SearchResult<SysRole> result = sysRoleService.searchRoleByFilter(filter);	
 		PageResponse  response = new PageResponse(
-			result.getResult(), 
+			SysRoleVO.toVOs(result.getResult()), 
 			result.getPagingResult().getRecordNumber(),
 			result.getPagingResult().getPageSize(),
 			result.getPagingResult().getTotalPage());

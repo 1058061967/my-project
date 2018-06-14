@@ -1,7 +1,6 @@
 package com.manage.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.manage.entity.SysUser;
 import com.manage.filter.UserFilter;
@@ -9,28 +8,24 @@ import com.manage.model.SearchResult;
 
 public interface SysUserService {
 	
+	public List<String> queryAllPerms(Integer userId);
+	
+	public List<Integer> queryAllMenuId(Integer userId);
+	
+	public SysUser searchUserByName(String userName);
+	
+	public SysUser searchUserById(Integer userId);
+	
+	public void createUser(SysUser user);
 
-	List<String> queryAllPerms(Integer userId);
+	public void batchDelete(Integer[] userIds);
 	
-	List<Integer> queryAllMenuId(Integer userId);
+	public int updatePassword(Integer userId, String password, String newPassword);
 	
-	SysUser queryByUserName(String username);
+	public SearchResult<SysUser> searchUserByFilter(UserFilter filter);
 	
-	SysUser queryObject(Integer userId);
+	public Integer countUserByFilter(UserFilter filter);
 	
-	List<SysUser> queryList(Map<String, Object> map);
+	public void  modifyUser(SysUser user);
 	
-	int queryTotal(Map<String, Object> map);
-	
-	void save(SysUser user);
-	
-	void update(SysUser user);
-
-	void deleteBatch(Integer[] userIds);
-	//修改密码
-	int updatePassword(Integer userId, String password, String newPassword);
-	
-	SearchResult<SysUser> searchUserByFilter(UserFilter filter);
-	
-	Integer countUserByFilter(UserFilter filter);
 }

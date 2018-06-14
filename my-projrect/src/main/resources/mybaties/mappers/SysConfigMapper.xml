@@ -49,5 +49,38 @@
 		</foreach>
 	</delete>
 	
+	<sql id="pagingLimit">
+		<include refid="com.manage.mapper.CommonMapper.pagingLimit" />
+	</sql>
 	
+    <sql id="configFilter">
+ 			<if test="filter.key != null">
+ 				AND config.key like #{filter.key,javaType=string,jdbcType=CHAR}
+ 			</if>			
+    </sql>
+
+	<select id="selectConfigByFilter" 
+			resultType="SysConfig">
+		SELECT 
+				*
+	    FROM
+	    	 sys_config config
+		<where>
+			<include refid="configFilter"/>
+		</where>
+			<include refid="pagingLimit"/>
+	</select>
+		
+		
+	<select id="countConfigByFilter"
+			 resultType="int">
+		SELECT
+			 count(*) 
+		FROM 
+			 sys_config config
+		<where>
+			<include refid="configFilter"/>
+		</where>
+	</select>		
+		
 </mapper>

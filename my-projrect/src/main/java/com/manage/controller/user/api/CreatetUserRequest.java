@@ -1,12 +1,10 @@
-package com.manage.entity;
+package com.manage.controller.user.api;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class SysUser implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class CreatetUserRequest {
+	
 	private Integer userId;
 	
 	private String userName;
@@ -22,7 +20,6 @@ public class SysUser implements Serializable {
 	private List<Integer> roleIdList;
 
 	private Date createTime;
-	
 
 	public Integer getUserId() {
 		return userId;
@@ -87,5 +84,5 @@ public class SysUser implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
 }

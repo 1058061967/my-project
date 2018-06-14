@@ -11,6 +11,9 @@ public class RoleFilter extends SearchFilter{
 	}
 
 	public void setRoleName(String roleName) {
+		if(roleName != null) {
+			roleName = "%" + roleName +'%';
+		}
 		this.roleName = roleName;
 	}
 	

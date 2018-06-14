@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.manage.controller.AbstractController;
+import com.manage.controller.common.AbstractController;
+import com.manage.controller.menu.api.SysMenuVO;
 import com.manage.controller.menu.api.searchMenuRequest;
 import com.manage.entity.SysMenu;
 import com.manage.filter.MenuFilter;
@@ -41,7 +42,7 @@ public class SysMenuController extends AbstractController {
 		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
 		SearchResult<SysMenu>  result = sysMenuService.searchMenuByFilter(filter);
 		PageResponse  response = new PageResponse(
-				result.getResult(),
+				SysMenuVO.toVOs(result.getResult()),
 				result.getPagingResult().getTotalPage(),
 				result.getPagingResult().getPageSize(),
 				result.getPagingResult().getTotalPage());

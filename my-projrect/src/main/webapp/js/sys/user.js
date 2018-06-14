@@ -4,7 +4,7 @@ $(function () {
         datatype: "json",
         colModel: [			
 			{ label: '用户ID', name: 'userId', width: 45, key: true },
-			{ label: '用户名', name: 'username', width: 75 },
+			{ label: '用户名', name: 'userName', width: 75 },
 			{ label: '邮箱', name: 'email', width: 90 },
 			{ label: '手机号', name: 'mobile', width: 100 },
 			{ label: '状态', name: 'status', width: 80, formatter: function(value, options, row){
@@ -45,7 +45,7 @@ var vm = new Vue({
 	el:'#rrapp',
 	data:{
 		q:{
-			username: null
+			userName: null
 		},
 		showList: true,
 		title:null,
@@ -135,7 +135,7 @@ var vm = new Vue({
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
 			$("#jqGrid").jqGrid('setGridParam',{ 
-                postData:{'username': vm.q.username},
+                postData:{'userName': vm.q.userName},
                 page:page
             }).trigger("reloadGrid");
 		}

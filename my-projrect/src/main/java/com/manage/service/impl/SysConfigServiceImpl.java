@@ -9,7 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.manage.entity.SysConfig;
+import com.manage.entity.SysUser;
+import com.manage.filter.configFilter;
 import com.manage.mapper.SysConfigMapper;
+import com.manage.model.PagingData;
+import com.manage.model.PagingResult;
+import com.manage.model.SearchResult;
 import com.manage.service.SysConfigService;
 
 @Service("sysConfigService")
@@ -69,5 +74,21 @@ public class SysConfigServiceImpl implements SysConfigService {
 		}
 		
 		return clazz.newInstance();
+	}
+
+	@Override
+	public SearchResult<SysConfig> searchSysConfigByFilter(configFilter filter) {
+		SearchResult<SysConfig>  result = new SearchResult<>();
+		List<SysConfig>  configs = sysConfigMapper.selectConfigByFilter(filter);
+		result.setResult(configs);
+		PagingData pagingData = filter.getPagingData();
+		
+		if(pagingData != null & filter.isPaged()) {
+		Integer recordNumber = sysConfigMapper.countConfigByFilter(filter);
+		PagingResult pagingResult = new PagingResult(recordNumber, pagingData);
+		result.setPaged(true);
+		result.setPagingResult(pagingResult);
+		}
+		return result;
 	}
 }

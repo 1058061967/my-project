@@ -1,4 +1,5 @@
-package com.manage.controller;
+package com.manage.controller.common;
+
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class SysLoginController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
-	public ServiceResponse login(String username, String password, String captcha)throws IOException {
+	public ServiceResponse login(String userName, String password, String captcha)throws IOException {
 		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
 		if(!captcha.equalsIgnoreCase(kaptcha)){
 			return ServiceResponse.error("验证码不正确");
@@ -63,7 +64,7 @@ public class SysLoginController {
 			Subject subject = ShiroUtils.getSubject();
 			//sha256加密
 			password = new Sha256Hash(password).toHex();
-			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+			UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
 			subject.login(token);
 		}catch (UnknownAccountException e) {
 			return ServiceResponse.error(e.getMessage());

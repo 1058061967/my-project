@@ -1,12 +1,14 @@
-package com.manage.entity;
+package com.manage.controller.user.api;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SysUser implements Serializable {
-	private static final long serialVersionUID = 1L;
+import com.manage.entity.SysUser;
+import com.manage.utils.DateTimeUtility;
 
+public class SysUserVO {
+	
 	private Integer userId;
 	
 	private String userName;
@@ -21,9 +23,9 @@ public class SysUser implements Serializable {
 	
 	private List<Integer> roleIdList;
 
-	private Date createTime;
-	
+	private String createTime;
 
+	
 	public Integer getUserId() {
 		return userId;
 	}
@@ -78,14 +80,36 @@ public class SysUser implements Serializable {
 
 	public void setRoleIdList(List<Integer> roleIdList) {
 		this.roleIdList = roleIdList;
-	}
-
-	public Date getCreateTime() {
+	}	
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
+
+	public static SysUserVO toVO(SysUser user) {
+		SysUserVO vo = new SysUserVO();
+		vo.setCreateTime(DateTimeUtility.formatYYYYMMDD(user.getCreateTime()));
+		vo.setEmail(user.getEmail());
+		vo.setMobile(user.getMobile());
+		vo.setMobile(user.getMobile());
+		vo.setPassword(user.getPassword());
+		vo.setStatus(user.getStatus());
+		vo.setUserId(user.getUserId());
+		vo.setUserName(user.getUserName());
+		vo.setRoleIdList(user.getRoleIdList());
+		return vo;
+	}
+	
+	public static List<SysUserVO> toVOs(List<SysUser> users) {
+		List<SysUserVO> vos = new ArrayList<>();
+		for(SysUser user : users) {
+			vos.add(toVO(user));
+		}
+		return vos;
+	}
+	
 	
 }

@@ -39,40 +39,29 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public SysUser queryByUserName(String username) {
-		return sysUserMapper.queryByUserName(username);
+	public SysUser searchUserByName(String username) {
+		return sysUserMapper.selectUserByName(username);
 	}
 	
 	@Override
-	public SysUser queryObject(Integer userId) {
+	public SysUser searchUserById(Integer userId) {
 		return sysUserMapper.queryObject(userId);
 	}
 
 	@Override
-	public List<SysUser> queryList(Map<String, Object> map){
-		return sysUserMapper.queryList(map);
-	}
-	
-	@Override
-	public int queryTotal(Map<String, Object> map) {
-		return sysUserMapper.queryTotal(map);
-	}
-
-	@Override
 	@Transactional
-	public void save(SysUser user) {
+	public void createUser(SysUser user) {
 		user.setCreateTime(new Date());
 		//sha256加密
 		user.setPassword(new Sha256Hash(user.getPassword()).toHex());
-		sysUserMapper.save(user);
-		
+		sysUserMapper.createUser(user);
 		//保存用户与角色关系
 		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
 	}
 
 	@Override
 	@Transactional
-	public void update(SysUser user) {
+	public void modifyUser(SysUser user) {
 		if(StringUtils.isBlank(user.getPassword())){
 			user.setPassword(null);
 		}else{
@@ -86,7 +75,7 @@ public class SysUserServiceImpl implements SysUserService {
 
 	@Override
 	@Transactional
-	public void deleteBatch(Integer[] userId) {
+	public void batchDelete(Integer[] userId) {
 		sysUserMapper.deleteBatch(userId);
 	}
 

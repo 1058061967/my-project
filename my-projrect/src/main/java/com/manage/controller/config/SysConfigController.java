@@ -1,8 +1,4 @@
-package com.manage.controller;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package com.manage.controller.config;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -12,12 +8,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.manage.controller.common.AbstractController;
+import com.manage.controller.config.api.SearchConfigRequest;
+import com.manage.controller.config.api.SysConfigVO;
 import com.manage.entity.SysConfig;
+import com.manage.filter.configFilter;
+import com.manage.model.PagingData;
+import com.manage.model.SearchResult;
 import com.manage.service.SysConfigService;
 import com.manage.utils.PageResponse;
-import com.manage.utils.ServiceResponse;
-import com.mysql.fabric.Response;
 import com.manage.utils.RRException;
+import com.manage.utils.ServiceResponse;
 
 
 @RestController
@@ -31,21 +32,19 @@ public class SysConfigController extends AbstractController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:config:list")
-	public ServiceResponse list(String key, Integer page, Integer limit){
-		Map<String, Object> map = new HashMap<>();
-		map.put("key", key);
-		map.put("offset", (page - 1) * limit);
-		map.put("limit", limit);
-		
-		//查询列表数据
-		List<SysConfig> configList = sysConfigService.queryList(map);
-		int total = sysConfigService.queryTotal(map);
-		
-		PageResponse  response = new PageResponse(configList, total, limit, page);
-		
-		return ServiceResponse.ok().put("page", response);
+	public ServiceResponse searchConfig(SearchConfigRequest request){	
+		configFilter filter = new configFilter();
+		filter.setKey(request.getKey());
+		filter.setPaged(request.isPaged());
+		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
+		SearchResult<SysConfig>  result = sysConfigService.searchSysConfigByFilter(filter);
+		PageResponse  response = new PageResponse(
+				SysConfigVO.toVOs(result.getResult()),
+				result.getPagingResult().getTotalPage(),
+				result.getPagingResult().getPageSize(),
+				result.getPagingResult().getTotalPage());
+		return ServiceResponse.ok().put("page",response);
 	}
-	
 	
 	/**
 	 * 配置信息

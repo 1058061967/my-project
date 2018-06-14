@@ -53,4 +53,39 @@
 		)
 	</insert>
 	
+	<sql id="pagingLimit">
+		<include refid="com.manage.mapper.CommonMapper.pagingLimit" />
+	</sql>
+	
+    <sql id="jobLogFilter">
+ 			<if test="filter.jobId != null">
+ 				AND jobLog.job_id like #{filter.jobId,javaType=int,jdbcType=INTEGER}
+ 			</if>			
+    </sql>
+
+	<select id="selectScheduleJobLogByFilter" 
+			resultType="ScheduleJobLog">
+		SELECT 
+				*
+	    FROM
+	    	 schedule_job_log jobLog
+		<where>
+			<include refid="jobLogFilter"/>
+		</where>
+			<include refid="pagingLimit"/>
+	</select>
+		
+		
+	<select id="countScheduleJobLogByFilter"
+			 resultType="int">
+		SELECT
+			 count(*) 
+		FROM 
+			 schedule_job_log jobLog
+		<where>
+			<include refid="jobLogFilter"/>
+		</where>
+	</select>		
+	
+	
 </mapper>

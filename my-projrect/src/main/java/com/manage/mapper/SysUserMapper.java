@@ -10,14 +10,22 @@ import com.manage.filter.UserFilter;
 
 public interface SysUserMapper extends BaseMapper<SysUser> {
 	
-	List<String> queryAllPerms(Integer userId);
+	public List<String> queryAllPerms(Integer userId);
 	
-	List<Integer> queryAllMenuId(Integer userId);
+	public List<Integer> queryAllMenuId(@Param("userId") Integer userId);
 	
-	SysUser queryByUserName(String username);
+	public SysUser selectUserByName(@Param("userName") String userName);
 
-	int updatePassword(Map<String, Object> map);
+	public Integer updatePassword(Map<String, Object> map);
 	
-	List<SysUser> selectUserByFilter(@Param("filter") UserFilter filter);
-	Integer countUserByFilter(@Param("filter") UserFilter filter);
+	
+	public List<SysUser> selectUserByFilter(@Param("filter") UserFilter filter);
+	
+	public Integer countUserByFilter(@Param("filter") UserFilter filter);
+	
+	public SysUser selectUserById(@Param("userId") Integer userId);
+	
+	public void updateUser(SysUser user);
+	
+	public void createUser(SysUser user);
 }

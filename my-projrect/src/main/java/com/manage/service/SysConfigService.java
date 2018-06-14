@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.manage.entity.SysConfig;
+import com.manage.filter.configFilter;
+import com.manage.model.SearchResult;
 
 public interface SysConfigService {
 	
@@ -24,5 +26,7 @@ public interface SysConfigService {
 	public String getValue(String key, String defaultValue);
 	
 	public <T> T getSysConfigObject(String key, Class<T> clazz) throws Exception;
+	
+	public SearchResult<SysConfig> searchSysConfigByFilter(configFilter filter);
 	
 }
