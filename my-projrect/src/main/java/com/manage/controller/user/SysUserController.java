@@ -41,7 +41,7 @@ public class SysUserController extends AbstractController {
 	@RequiresPermissions("sys:user:list")
 	public ServiceResponse searchSysUserlist(SearchUserRequest request){
 		UserFilter filter = new UserFilter();
-		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
+		filter.setPagingData(new PagingData(request.getPage(), request.getLimit()));
 		filter.setUserName(request.getUserName());
 		filter.setPaged(request.isPaged());
 		SearchResult<SysUser> result = sysUserService.searchUserByFilter(filter);

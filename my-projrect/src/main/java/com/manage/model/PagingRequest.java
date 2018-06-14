@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlElement;
 public class PagingRequest {
 private boolean paged;
 	
-	private int pageNumber;
-	private int pageSize;
+	private int page;
+	private int limit;
 	
 	@XmlElement
 	private String orderingBy;
@@ -16,8 +16,8 @@ private boolean paged;
 	
 	public PagingRequest() {
 		this.paged = true;
-		this.pageNumber = 1;
-		this.pageSize = 10;
+		this.page = 1;
+		this.limit = 10;
 	}
 	
 	public boolean isPaged() {
@@ -28,23 +28,24 @@ private boolean paged;
 		this.paged = paged;
 	}
 
-	public int getPageNumber() {
-        return pageNumber;
-    }
     
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
-    }
-    
-    public int getPageSize() {
-        return pageSize;
-    }
-    
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-    
-    public String getOrderingBy() {
+    public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
+	public String getOrderingBy() {
 		return orderingBy;
 	}
 

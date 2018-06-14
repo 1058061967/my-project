@@ -36,7 +36,7 @@ public class ScheduleJobController {
 		ScheduleJobFilter filter = new ScheduleJobFilter();
 		filter.setBeanName(request.getBeanName());
 		filter.setPaged(request.isPaged());
-		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
+		filter.setPagingData(new PagingData(request.getPage(), request.getLimit()));
 		SearchResult<ScheduleJob> result = scheduleJobService.searchSchduleJobByFilter(filter);
 		PageResponse response = new PageResponse(
 				ScheduleJobVO.toVOs(result.getResult()),

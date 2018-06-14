@@ -135,7 +135,7 @@
 			#{password,javaType=string,jdbcType=CHAR}, 
 			#{email,javaType=string,jdbcType=CHAR}, 
 			#{mobile,javaType=string,jdbcType=CHAR}, 
-			#{status,javaType=string,jdbcType=CHAR}, 
+			#{status,javaType=int,jdbcType=INTEGER}, 
 			#{createTime,javaType=date,jdbcType=TIMESTAMP}
 		)
 	</insert>	

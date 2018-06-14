@@ -32,6 +32,8 @@
 		<jstl-version>1.2</jstl-version>
 		<taglibs-version>1.1.2</taglibs-version>
 		<freemarker-version>2.3.23</freemarker-version>
+		<webmagic-core>0.7.3</webmagic-core>
+		<webmagic-extension>0.7.3</webmagic-extension>
 	</properties>
 	
 	<!-- 阿里云maven仓库 -->
@@ -264,6 +266,17 @@
 			<artifactId>freemarker</artifactId>
 			<version>${freemarker-version}</version>
 		</dependency>
+		<dependency>
+        <groupId>us.codecraft</groupId>
+        <artifactId>webmagic-core</artifactId>
+        <version>${webmagic-core}</version>
+    </dependency>
+	<dependency>
+        <groupId>us.codecraft</groupId>
+        <artifactId>webmagic-extension</artifactId>
+        <version>${webmagic-extension}</version>
+    </dependency>
+
 	</dependencies>
 
 	<build>

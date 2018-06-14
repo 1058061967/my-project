@@ -36,7 +36,7 @@ public class SysRoleController extends AbstractController {
 	public ServiceResponse searchRoles(SearchRoleRequest request){
 		RoleFilter filter = new RoleFilter();
 		filter.setRoleName(request.getRoleName());
-		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
+		filter.setPagingData(new PagingData(request.getPage(), request.getLimit()));
 		filter.setPaged(request.isPaged());
 		SearchResult<SysRole> result = sysRoleService.searchRoleByFilter(filter);	
 		PageResponse  response = new PageResponse(

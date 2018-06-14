@@ -33,7 +33,7 @@ public class ScheduleJobLogController {
 		ScheduleJobLogFilter filter = new ScheduleJobLogFilter();
 		filter.setJobId(request.getJobId());
 		filter.setPaged(true);
-		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
+		filter.setPagingData(new PagingData(request.getPage(), request.getLimit()));
 		SearchResult<ScheduleJobLog> result = scheduleJobLogService.searchShceduleJobLogByFilter(filter);
 		PageResponse response = new PageResponse(
 				ScheduleJobLogVO.toVOs(result.getResult()),

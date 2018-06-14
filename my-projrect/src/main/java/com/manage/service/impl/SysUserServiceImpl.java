@@ -45,7 +45,7 @@ public class SysUserServiceImpl implements SysUserService {
 	
 	@Override
 	public SysUser searchUserById(Integer userId) {
-		return sysUserMapper.queryObject(userId);
+		return sysUserMapper.selectUserById(userId);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class SysUserServiceImpl implements SysUserService {
 		}else{
 			user.setPassword(new Sha256Hash(user.getPassword()).toHex());
 		}
-		sysUserMapper.update(user);
+		sysUserMapper.updateUser(user);
 		
 		//保存用户与角色关系
 		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
@@ -76,7 +76,7 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	@Transactional
 	public void batchDelete(Integer[] userId) {
-		sysUserMapper.deleteBatch(userId);
+		sysUserMapper.batchDelete(userId);
 	}
 
 	@Override

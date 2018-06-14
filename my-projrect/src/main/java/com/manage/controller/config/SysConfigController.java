@@ -36,7 +36,7 @@ public class SysConfigController extends AbstractController {
 		configFilter filter = new configFilter();
 		filter.setKey(request.getKey());
 		filter.setPaged(request.isPaged());
-		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
+		filter.setPagingData(new PagingData(request.getPage(), request.getLimit()));
 		SearchResult<SysConfig>  result = sysConfigService.searchSysConfigByFilter(filter);
 		PageResponse  response = new PageResponse(
 				SysConfigVO.toVOs(result.getResult()),

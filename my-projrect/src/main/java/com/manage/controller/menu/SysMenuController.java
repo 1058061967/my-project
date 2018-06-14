@@ -39,13 +39,13 @@ public class SysMenuController extends AbstractController {
 	public ServiceResponse searchMenu(searchMenuRequest request){
 		MenuFilter filter = new MenuFilter();
 		filter.setPaged(request.isPaged());
-		filter.setPagingData(new PagingData(request.getPageNumber(), request.getPageSize()));
+		filter.setPagingData(new PagingData(request.getPage(), request.getLimit()));
 		SearchResult<SysMenu>  result = sysMenuService.searchMenuByFilter(filter);
 		PageResponse  response = new PageResponse(
 				SysMenuVO.toVOs(result.getResult()),
-				result.getPagingResult().getTotalPage(),
+				result.getPagingResult().getRecordNumber(),
 				result.getPagingResult().getPageSize(),
-				result.getPagingResult().getTotalPage());
+				result.getPagingResult().getPageNumber());
 		return ServiceResponse.ok().put("page",response);
 }
 	

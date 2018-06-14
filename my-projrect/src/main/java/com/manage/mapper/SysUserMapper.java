@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.manage.entity.SysUser;
 import com.manage.filter.UserFilter;
 
-public interface SysUserMapper extends BaseMapper<SysUser> {
+public interface SysUserMapper{
 	
 	public List<String> queryAllPerms(Integer userId);
 	
@@ -28,4 +28,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	public void updateUser(SysUser user);
 	
 	public void createUser(SysUser user);
+	
+	public void batchDelete(Integer[] userId);
 }
